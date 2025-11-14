@@ -91,7 +91,7 @@ class DocLayoutCommand extends UICommand {
         (tr as Transform) = setDocLayout(tr, schema, width, layout);
       }
       this.getEditor().view.dispatch(tr);
-      view && view.focus();
+      if (view) view.focus();
     }
 
     return false;
@@ -100,7 +100,12 @@ class DocLayoutCommand extends UICommand {
   cancel(): void {
     return null;
   }
-  executeCustom(_state: EditorState, tr: Transform, _from: number, _to: number): Transform {
+  executeCustom(
+    _state: EditorState,
+    tr: Transform,
+    _from: number,
+    _to: number
+  ): Transform {
     return tr;
   }
   executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {

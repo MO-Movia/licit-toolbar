@@ -19,9 +19,9 @@ type parseLabeltype = {
 export const MORE = ' More';
 
 export function parseLabel(input: string, theme: string): parseLabeltype {
-  const matched = input.match(ICON_LABEL_PATTERN);
+  const matched = ICON_LABEL_PATTERN.exec(input);
   if (matched) {
-const [, icon, , label] = matched;
+    const [, icon, , label] = matched;
     return {
       icon: icon ? Icon.get(icon, null, theme) : null,
       title: label || null,
@@ -34,7 +34,7 @@ const [, icon, , label] = matched;
 }
 
 export function isExpandButton(title: string): boolean {
-  return (title?.trim() == 'Expand');
+  return title?.trim() == 'Expand';
 }
 const {
   CLEAR_FORMAT,

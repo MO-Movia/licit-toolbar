@@ -8,7 +8,8 @@ module.exports = [
     rules: {
       //Include any rule overrides here!
       "sonarjs/todo-tag":"off",
-      "sonarjs/no-clear-text-protocols":"off"
+      "sonarjs/no-clear-text-protocols":"off",
+      "import/no-cycle":"off",
     },
   },
 ];

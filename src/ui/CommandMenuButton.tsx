@@ -60,9 +60,7 @@ class CommandMenuButton extends React.PureComponent<PropsType, StateType> {
       editorView,
       icon,
       disabled,
-      title,
-      sub,
-      theme,
+      title
     } = this.props;
     const enabled =
       !disabled &&

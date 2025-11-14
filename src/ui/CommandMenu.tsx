@@ -142,7 +142,7 @@ class CommandMenu extends React.PureComponent<PropsType> {
 
   _onUIEnter = (command: UICommand, event: React.SyntheticEvent): void => {
     if (command.shouldRespondToUIEvent(event)) {
-      this._activeCommand && this._activeCommand.cancel();
+      this._activeCommand?.cancel();
       this._activeCommand = command;
       this._execute(command, event);
     }

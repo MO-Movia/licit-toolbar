@@ -24,6 +24,10 @@ import {LicitPlugin} from '../ConvertFromJSON';
 import {EditorViewEx} from '../Constants';
 import {ToolbarMenuConfig} from '../Types';
 
+interface LicitPluginWithKey extends LicitPlugin {
+  key: string;
+}
+
 export class EditorToolbar extends React.PureComponent {
   static readonly contextType = ThemeContext;
   declare context: React.ContextType<typeof ThemeContext>;
@@ -76,7 +80,7 @@ export class EditorToolbar extends React.PureComponent {
         .filter((item) => item.isPlugin === true)
         .map((toolbarObj) => {
           const matchingPlugin = this.props.editorState.plugins.find(
-            (plugin) => (plugin as any).key === toolbarObj.key
+            (plugin) => (plugin as LicitPluginWithKey).key === toolbarObj.key
           );
 
           if (matchingPlugin) {
@@ -229,7 +233,7 @@ export class EditorToolbar extends React.PureComponent {
       return acc as Array<
         Record<string, UICommand | React.PureComponent | string>
       >;
-    }, []);
+    }, []) as Array<Record<string, UICommand | React.PureComponent | string>>;
   }
 
   groupMenuItems = (items) => {

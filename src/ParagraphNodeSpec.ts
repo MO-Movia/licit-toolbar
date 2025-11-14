@@ -147,7 +147,9 @@ function toDOM(node: Node): DOMOutputSpec {
   const attrs = { style: '', id: '' };
   const style = getStyle(node.attrs);
 
-  style && (attrs.style = style);
+  if (style) {
+    attrs.style = style;
+  }
 
   if (indent) {
     attrs[ATTRIBUTE_INDENT] = String(indent);
@@ -165,7 +167,10 @@ export const getParagraphStyle = getStyle;
 
 export function convertMarginLeftToIndentValue(marginLeft: string): number {
   const ptValue = convertToCSSPTValue(marginLeft);
-  return Math.min(Math.max(Math.floor(ptValue / INDENT_MARGIN_PT_SIZE), MIN_INDENT_LEVEL), MAX_INDENT_LEVEL);
+  return Math.min(
+    Math.max(Math.floor(ptValue / INDENT_MARGIN_PT_SIZE), MIN_INDENT_LEVEL),
+    MAX_INDENT_LEVEL
+  );
 }
 
 export default ParagraphNodeSpec;

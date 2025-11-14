@@ -330,7 +330,6 @@ describe('PointerSurface', () => {
     document.body.appendChild(container1);
     document.body.appendChild(container2);
     
-    let element1, element2;
     act(() => {
       ReactDOM.render(
         <PointerSurface onClick={handleClick}>Button 1</PointerSurface>,
@@ -342,8 +341,8 @@ describe('PointerSurface', () => {
       );
     });
     
-    element1 = container1.firstChild;
-    element2 = container2.firstChild;
+    const element1 = container1.firstChild;
+    const element2 = container2.firstChild;
     
     act(() => {
       element1.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));

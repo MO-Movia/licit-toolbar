@@ -17,13 +17,8 @@ class HistoryRedoCommand extends UICommand {
   };
 
   isEnabled = (_state): boolean => {
-    const history = (_state).history$;
-    if (history.undone.eventCount === 0) {
-      return false;
-    }
-    else {
-      return true;
-    }
+    const history = _state.history$;
+    return history?.undone?.eventCount > 0 || false;
   };
 
   execute = (
@@ -34,16 +29,31 @@ class HistoryRedoCommand extends UICommand {
     return this.getEditor().commands.redo();
   };
 
-  waitForUserInput(): Promise<null> {
+  waitForUserInput(
+    _state: EditorState,
+    _dispatch?: (tr: Transform) => void,
+    _view?: EditorView,
+    _event?: React.SyntheticEvent
+  ): Promise<PromiseConstructor> {
     return Promise.resolve(null);
   }
-  executeWithUserInput(): boolean {
+  executeWithUserInput(
+    _state: EditorState,
+    _dispatch?: (tr: Transform) => void,
+    _view?: EditorView,
+    _inputs?: string
+  ): boolean {
     return false;
   }
   cancel(): void {
     return null;
   }
-  executeCustom(_state: EditorState, tr: Transform, _from: number, _to: number): Transform {
+  executeCustom(
+    _state: EditorState,
+    tr: Transform,
+    _from: number,
+    _to: number
+  ): Transform {
     return tr;
   }
   executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {

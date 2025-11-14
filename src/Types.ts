@@ -5,8 +5,9 @@
  */
 
 import * as React from 'react';
-import { EditorState } from 'prosemirror-state';
-import { Transform } from 'prosemirror-transform';
+import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
+import {UICommand} from '@modusoperandi/licit-doc-attrs-step';
 
 export type NodeSpec = {
   attrs?: Record<string, unknown>;
@@ -63,14 +64,13 @@ export type ImageLike = {
 export type ToolbarMenuConfig = {
   menuPosition: number;
   key: string;
-  menuCommand: any;
+  menuCommand: UICommand;
   isPlugin?: boolean;
   group: string;
-
-}
+};
 export type RecentColor = {
-  id: number,
-  color: string
+  id: number;
+  color: string;
 };
 
 export type EditorRuntime = {

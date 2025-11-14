@@ -73,7 +73,12 @@ export class ListToggleCommand extends UICommand {
     return UICommand.prototype.editor;
   };
 
-  executeCustom(_state: EditorState, tr: Transform, _from: number, _to: number): Transform {
+  executeCustom(
+    _state: EditorState,
+    tr: Transform,
+    _from: number,
+    _to: number
+  ): Transform {
     return tr;
   }
   executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {
@@ -94,7 +99,7 @@ export class ListToggleCommand extends UICommand {
     }
     (tr as Transform) = toggleList(tr, schema, nodeType, this._orderedListType);
     if (tr.docChanged) {
-      dispatch && dispatch(tr);
+      if (dispatch) dispatch(tr);
       return true;
     } else {
       return false;

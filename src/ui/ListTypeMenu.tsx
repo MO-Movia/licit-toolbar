@@ -18,7 +18,7 @@ class ListTypeMenu extends React.PureComponent {
   _activeCommand: UICommand = null;
  declare props: {
     className?: string;
-    commandGroups: Array<any>,
+    commandGroups: Array<UICommand>,
     disabled?: boolean;
     dispatch: (tr: Transform) => void;
     editorState: EditorState;

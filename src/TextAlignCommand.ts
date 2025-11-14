@@ -94,10 +94,7 @@ export class TextAlignCommand extends UICommand {
   };
 
   isEnabled = (state: EditorState): boolean => {
-    if (state) {
-      return true;
-    }
-    return false;
+    return !!state;
   };
 
   waitForUserInput = (
