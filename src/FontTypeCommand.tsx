@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import { Schema } from 'prosemirror-model';
 import { TextSelection, EditorState, Transaction } from 'prosemirror-state';
 
@@ -91,7 +96,9 @@ export class FontTypeCommand extends UICommand {
     );
     return tr;
   };
-
+  executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {
+    return tr;
+  }
   waitForUserInput = (
     _state: EditorState,
     _dispatch?: (tr: Transform) => void,

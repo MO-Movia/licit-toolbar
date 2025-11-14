@@ -3,10 +3,7 @@
   border-radius: 0;
   display: block;
   margin: 0;
-  padding-bottom: 8px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 8px;
+  padding: 8px 20px;
   height: 100%;
 }
 
@@ -45,6 +42,7 @@
   width: 28px;
   height: 28px;
 }
+
 .czi-custom-menu-item.light img {
   width: 28px;
   height: 28px;

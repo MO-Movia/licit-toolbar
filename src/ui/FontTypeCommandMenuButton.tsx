@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import CommandMenuButton from './CommandMenuButton';
 import { FontTypeCommand } from '@modusoperandi/licit-ui-commands';
 import * as React from 'react';

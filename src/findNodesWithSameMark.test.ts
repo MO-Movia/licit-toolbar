@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {findNodesWithSameMark} from './findNodesWithSameMark';
 import {schema} from 'prosemirror-schema-basic';
 import {Node} from 'prosemirror-model';

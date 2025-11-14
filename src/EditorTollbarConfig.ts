@@ -1,11 +1,13 @@
-// eslint-disable-next-line no-unused-vars
-import * as React from 'react';
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import * as EditorCommands from './EditorCommands';
 import FontSizeCommandMenuButton from './ui/FontSizeCommandMenuButton';
 import FontTypeCommandMenuButton from './ui/FontTypeCommandMenuButton';
 import ListTypeCommandButton from './ui/ListTypeCommandButton';
 import Icon from './ui/Icon';
-import { UICommand } from '@modusoperandi/licit-doc-attrs-step';
 
 const ICON_LABEL_PATTERN = /^\[((?!\[)[^\s]+)(\] )(.*)/;
 
@@ -19,13 +21,7 @@ export const MORE = ' More';
 export function parseLabel(input: string, theme: string): parseLabeltype {
   const matched = input.match(ICON_LABEL_PATTERN);
   if (matched) {
-    const [
-      // eslint-disable-next-line no-unused-vars
-      _all,
-      icon,
-      _sep,
-      label,
-    ] = matched;
+const [, icon, , label] = matched;
     return {
       icon: icon ? Icon.get(icon, null, theme) : null,
       title: label || null,

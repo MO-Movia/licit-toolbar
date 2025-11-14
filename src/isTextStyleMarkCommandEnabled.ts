@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {isNodeSelectionForNodeType} from './isNodeSelectionForNodeType';
 import {MATH} from './NodeNames';
 import {EditorState} from 'prosemirror-state';

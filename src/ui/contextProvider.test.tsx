@@ -1,7 +1,11 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import   
- { ThemeProvider, ThemeContext } from '../index'; 
+import { ThemeProvider, ThemeContext } from './contextProvider'; 
 
 describe('ThemeProvider', () => {
   test('renders children with provided theme', () => {

@@ -56,8 +56,9 @@
 }
 
 .czi-editor-toolbar-body-content {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 26%);
   box-sizing: border-box;
+
   /* [FS] IRAD-1018 2020-08-13
      Handle map properly so that undo works correctly for */
   overflow: hidden;
@@ -69,12 +70,14 @@
 .czi-editor-toolbar-body-content.dark {
   background: #444;
   border-color: transparent;
+
   /* color: #c7c7c7; */
 }
 
 .czi-editor-toolbar-body-content.light {
   border-color: transparent;
   background-color: #d8d6d6;
+
   /* color: black; */
 }
 
@@ -89,9 +92,7 @@
 .czi-editor-toolbar .czi-custom-buttons {
   /* border-right-color: #efefef;
   For Them changescommented above */
-  border-right-color: #8b8888;
-  border-right-style: solid;
-  border-right-width: 1px;
+  border-right: 1px solid #8b8888;
   display: inline-block;
   margin: 0;
   padding: 0;
@@ -108,10 +109,7 @@
 }
 
 .czi-editor-toolbar .czi-custom-button.use-icon .czi-icon {
-  margin-bottom: 4px;
-  margin-left: 0;
-  margin-top: 4px;
-  margin-right: 0;
+  margin: 4px 0;
 }
 
 .czi-editor-toolbar-background {

@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import { EditorState, TextSelection, Transaction } from 'prosemirror-state';
 import { Transform } from 'prosemirror-transform';
 import { EditorView } from 'prosemirror-view';
@@ -46,7 +51,9 @@ export class IndentCommand extends UICommand {
     const trx = updateIndentLevel(state, tr, schema, this._delta, null);
     return trx.tr;
   };
-
+   executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {
+    return tr;
+  }
   waitForUserInput = (
     _state: EditorState,
     _dispatch?: (tr: Transform) => void,

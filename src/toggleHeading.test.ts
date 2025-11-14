@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {toggleHeading,setHeadingNode} from './toggleHeading';
 import {Node, Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';

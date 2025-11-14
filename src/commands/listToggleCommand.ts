@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import { EditorState, Transaction } from 'prosemirror-state';
 import { Transform } from 'prosemirror-transform';
 import { ContentNodeWithPos, findParentNodeOfType } from 'prosemirror-utils';
@@ -65,10 +70,13 @@ export class ListToggleCommand extends UICommand {
   }
 
   getEditor = (): Editor => {
-    return UICommand.prototype.editor as Editor;
+    return UICommand.prototype.editor;
   };
-  
-  executeCustom(state: EditorState, tr: Transform, from: number, to: number): Transform {
+
+  executeCustom(_state: EditorState, tr: Transform, _from: number, _to: number): Transform {
+    return tr;
+  }
+  executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {
     return tr;
   }
 

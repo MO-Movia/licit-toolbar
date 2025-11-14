@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import { Transaction } from '@remirror/pm/state';
 import { Mark, MarkType, Node, Schema } from 'prosemirror-model';
 import { SelectionRange, TextSelection } from 'prosemirror-state';
@@ -66,7 +71,7 @@ export function applyMark(
       let from = $from.pos;
       let to = 1;
       if (nodeTr) {
-        nodeTr.descendants(function (child) {
+        nodeTr.descendants((child) => {
           const nodeTr_1 = tr.doc.nodeAt(from);
           let to_add = 0;
           if (nodeTr_1.childCount > 0) {
@@ -114,7 +119,7 @@ export function applyMark(
         } else if (nodeTr instanceof Node) {
           let from = $from.pos;
           let to = 0;
-          nodeTr.descendants(function (child) {
+          nodeTr.descendants((child) => {
             if (child) {
               const nodeTr_1 = tr.doc.nodeAt(from);
               to = from + child.nodeSize;
@@ -140,7 +145,7 @@ export function applyMark(
         if (undefined === isCustomStyleApplied) {
           tr = tr.addMark($from.pos, $to.pos, markType.create(attrs));
         } else {
-          nodeTr.descendants(function (child) {
+          nodeTr.descendants((child) => {
             if (child) {
               const nodeTr = tr.doc.nodeAt(from);
               to = from + child.nodeSize;

@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import { toggleMark } from 'prosemirror-commands';
 import { EditorState } from 'prosemirror-state';
 import { Transform } from 'prosemirror-transform';
@@ -95,7 +100,9 @@ export class MarkToggleCommand extends UICommand {
 
     return toggleCustomStyle(markType, null, state, tr, posfrom, posto);
   };
-
+  executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {
+    return tr;
+  }
   renderLabel() {
     return null;
   }
@@ -162,7 +169,7 @@ function markApplies(doc, ranges, type) {
     let can = $from.depth === 0 ? doc.type.allowsMarkType(type) : false;
     let bOk = false;
 
-    doc.nodesBetween($from.pos, $to.pos, function (node) {
+    doc.nodesBetween($from.pos, $to.pos, (node) => {
       if (can) {
         return false;
       }

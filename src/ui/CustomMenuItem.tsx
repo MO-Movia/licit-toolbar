@@ -1,8 +1,12 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import '../styles/czi-custom-menu-item.css';
 import {
   CustomButton,
   PointerSurfaceProps,
-  TextAlignCommand,
   ThemeContext
 } from '@modusoperandi/licit-ui-commands';
 import * as React from 'react';
@@ -10,7 +14,9 @@ type CustomButtonProps = PointerSurfaceProps & {
   icon?: string | React.ReactElement | null;
   label?: string | React.ReactElement | null;
   theme?: string;
-
+  value?: {
+    alignment?: string;
+  };
 };
 
 class CustomMenuItemSeparator extends React.PureComponent {
@@ -20,8 +26,8 @@ class CustomMenuItemSeparator extends React.PureComponent {
 }
 
 class CustomMenuItem extends React.PureComponent {
-  static Separator = CustomMenuItemSeparator;
-  static contextType = ThemeContext;
+  static readonly Separator = CustomMenuItemSeparator;
+  static readonly contextType = ThemeContext;
   declare props: CustomButtonProps;
 
   render(): React.ReactElement<CustomButton> {

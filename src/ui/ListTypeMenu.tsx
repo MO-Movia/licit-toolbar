@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import * as React from 'react';
 import { UICommand } from '@modusoperandi/licit-doc-attrs-step';
 import { EditorState } from 'prosemirror-state';
@@ -5,7 +10,6 @@ import { Transform } from 'prosemirror-transform';
 import { EditorView } from 'prosemirror-view';
 import {uuid} from './uuid';
 import '../styles/listType.css';
-import { Arr } from './CommandMenuButton';
 
 // [FS] IRAD-1039 2020-09-24
 // UI to show the list buttons
@@ -37,8 +41,8 @@ class ListTypeMenu extends React.PureComponent {
     const { commandGroups } = this.props;
     const children = [];
     const theme = this.props.theme;
-    let className = 'buttonsize ' + theme;
-    let cont_classname = 'ol-container ' + theme;
+    const className = 'buttonsize ' + theme;
+    const cont_classname = 'ol-container ' + theme;
     commandGroups.forEach((group, _ii) => {
       Object.keys(group).forEach((label) => {
         const command = group[label];
@@ -59,7 +63,7 @@ class ListTypeMenu extends React.PureComponent {
   }
 
   _onUIEnter = (command: UICommand, event: React.SyntheticEvent): void => {
-    this._activeCommand && this._activeCommand.cancel();
+    this._activeCommand?.cancel();
     this._activeCommand = command;
     this._execute(command, event);
   };
@@ -67,7 +71,7 @@ class ListTypeMenu extends React.PureComponent {
   _execute = (command: UICommand, e: React.SyntheticEvent): void => {
     const { dispatch, editorState, editorView, onCommand } = this.props;
     if (command.execute(editorState, dispatch, editorView, e)) {
-      onCommand && onCommand();
+      onCommand?.();
     }
   };
 }

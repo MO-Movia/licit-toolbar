@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import '@tiptap/react';
 
 /*Module Augmentation: This is useful when a library provides additional functionality (via extensions) that isn't declared in its original type definitions.*/

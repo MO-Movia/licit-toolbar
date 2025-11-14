@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {Schema, Node} from 'prosemirror-model';
 import {transformAndPreserveTextSelection} from './transformAndPreserveTextSelection';
 import {Transform} from 'prosemirror-transform';
@@ -53,7 +58,7 @@ describe('transformAndPreserveTextSelection', () => {
     );
     expect(test).toBeDefined();
   });
-  it('should handle transformAndPreserveTextSelection when getMeta return false and when !markType ', () => {
+  it('should handle transformAndPreserveTextSelection when getMeta return false and when !markType', () => {
     const test = transformAndPreserveTextSelection(
       {
         getMeta: () => {

@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {isOrderedListNode} from './isOrderedListNode';
 import {isListNode} from './isListNode';
 import {Fragment, Node} from 'prosemirror-model';

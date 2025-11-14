@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {isListNode} from './isListNode';
 import {Node, Schema} from 'prosemirror-model';
 describe('isListNode', () => {

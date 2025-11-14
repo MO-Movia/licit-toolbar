@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {FontTypeCommand} from './FontTypeCommand';
 import {EditorState} from 'prosemirror-state';
 import {Schema, Node} from 'prosemirror-model';

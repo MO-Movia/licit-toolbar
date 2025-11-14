@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import { EditorView } from 'prosemirror-view';
 import { EditorState } from 'prosemirror-state';
 import { CellSelection } from 'prosemirror-tables';
@@ -16,7 +21,10 @@ class TableMergeCellsCommand extends UICommand {
   cancel(): void {
     return null;
   }
-  executeCustom(state: EditorState, tr: Transform, from: number, to: number): Transform {
+  executeCustom(_state: EditorState, tr: Transform, _from: number, _to: number): Transform {
+    return tr;
+  }
+  executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {
     return tr;
   }
   isEnabled = (_state: EditorState): boolean => {
@@ -24,7 +32,7 @@ class TableMergeCellsCommand extends UICommand {
   };
 
   getEditor = (): Editor => {
-    return UICommand.prototype.editor as Editor;
+    return UICommand.prototype.editor;
   };
 
   execute = (

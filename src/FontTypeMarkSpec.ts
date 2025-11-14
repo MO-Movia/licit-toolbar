@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import { Mark, MarkSpec } from 'prosemirror-model';
 
 // seybi need to optimise the code and make a coomon module for this

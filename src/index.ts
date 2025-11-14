@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 export * from './MarkToggleCommand';
 export * from './FontTypeCommand';
 export * from './FontSizeCommand';
@@ -26,4 +31,4 @@ export * from './clearMarks';
 export * from './NodeNames';
 export * from './MarkNames';
 export { ThemeProvider,ThemeContext } from './ui/contextProvider';
-export {EditorToolbar} from './ui/Toolbar'
+export {EditorToolbar} from './ui/Toolbar';

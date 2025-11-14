@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {Node} from 'prosemirror-model';
 
 import {ORDERED_LIST} from './NodeNames';

@@ -1,7 +1,10 @@
-// [FS] IRAD-1005 2020-07-07
-// Upgrade outdated packages.
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {v1 as uuidv1} from 'uuid';
 
 export function uuid(): string {
-  return uuidv1();
+  return uuidv1() as string;
 }

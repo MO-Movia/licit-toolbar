@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import cx from 'classnames';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
@@ -33,7 +38,7 @@ class GridCell extends React.PureComponent<
   TableGridSizeEditorState
 > {
   render(): React.ReactElement<HTMLDivElement> {
-    const { x, y, selected } = this.props;
+    const {x, y, selected} = this.props;
     const style = {
       left: x + 'px',
       top: y + 'px',
@@ -72,11 +77,13 @@ class TableGridSizeEditor extends React.PureComponent<
     if (this._entered) {
       document.removeEventListener('mousemove', this._onMouseMove, true);
     }
-    this._rafID && cancelAnimationFrame(this._rafID);
+    if (this._rafID) {
+      cancelAnimationFrame(this._rafID);
+    }
   }
 
   render(): React.ReactElement {
-    const { rows, cols } = this.state;
+    const {rows, cols} = this.state;
     let rr = Math.max(5, rows);
     let cc = Math.max(5, cols);
     if (rr === rows) {
@@ -113,7 +120,7 @@ class TableGridSizeEditor extends React.PureComponent<
       h = y + GUTTER_SIZE;
       ii++;
     }
-    const bodyStyle = { width: w + 'px', height: h + 'px' };
+    const bodyStyle = {width: w + 'px', height: h + 'px'};
 
     return (
       <div className="czi-table-grid-size-editor" ref={this._onRef}>
@@ -169,7 +176,9 @@ class TableGridSizeEditor extends React.PureComponent<
     if (mx !== this._mx || my !== this._my) {
       this._mx = mx;
       this._my = my;
-      this._rafID && cancelAnimationFrame(this._rafID);
+      if (this._rafID) {
+        cancelAnimationFrame(this._rafID);
+      }
       this._rafID = requestAnimationFrame(this._updateGridSize);
     }
   };
@@ -182,9 +191,9 @@ class TableGridSizeEditor extends React.PureComponent<
     const y = my - this._ey;
     const rr = clamp(1, Math.ceil(y / (CELL_SIZE + GUTTER_SIZE)), MAX_SIZE);
     const cc = clamp(1, Math.ceil(x / (CELL_SIZE + GUTTER_SIZE)), MAX_SIZE);
-    const { rows, cols } = this.state;
+    const {rows, cols} = this.state;
     if (rows !== rr || cols !== cc) {
-      this.setState({ rows: rr, cols: cc });
+      this.setState({rows: rr, cols: cc});
     }
   };
 

@@ -1,4 +1,9 @@
-import {applyMark} from './index';
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
+import {applyMark} from './applyMark';
 import {EditorState, TextSelection} from 'prosemirror-state';
 import {Mark, MarkType, Schema,Node} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
@@ -178,7 +183,7 @@ describe('applyMark', () => {
     const transformedTr = applyMark(tr, schema, markType, attrs, false);
     expect(transformedTr).toBeTruthy();
   });
-  it('should handle applyMark when isCustomStyleApplied is true ',()=>{
+  it('should handle applyMark when isCustomStyleApplied is true',()=>{
     const  addMark = ()=>{return {addMark:addMark,doc:dummyDoc};};
     const markType = schema.marks.bold;
     const attrs = {fontWeight: 'bold'};

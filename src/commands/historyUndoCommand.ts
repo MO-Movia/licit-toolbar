@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import { EditorState } from 'prosemirror-state';
 import { Transform } from 'prosemirror-transform';
 import { EditorView } from 'prosemirror-view';
@@ -8,11 +13,11 @@ import { Editor } from '@tiptap/react';
 class HistoryUndoCommand extends UICommand {
 
   getEditor = (): Editor => {
-    return UICommand.prototype.editor as Editor;
+    return UICommand.prototype.editor;
   };
 
-  isEnabled = (_state: EditorState): boolean => {
-    const history = (_state as any).history$;
+  isEnabled = (_state): boolean => {
+    const history = (_state).history$;
     if (history.done.eventCount === 0) {
       return false;
     }
@@ -38,7 +43,10 @@ class HistoryUndoCommand extends UICommand {
   cancel(): void {
     return null;
   }
-  executeCustom(state: EditorState, tr: Transform, from: number, to: number): Transform {
+  executeCustom(_state: EditorState, tr: Transform, _from: number, _to: number): Transform {
+    return tr;
+  }
+  executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {
     return tr;
   }
 }

@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {toggleList, unwrapNodesFromListInternal, wrapItemsWithListInternal, wrapNodesWithList, wrapNodesWithListInternal} from './toggleList';
 import {Node, NodeType, Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
@@ -119,7 +124,7 @@ describe('toggleList', () => {
       expect(test).toBeDefined();
     });
 
-    it('should return the transform  when paragraph is there ', () => {
+    it('should return the transform  when paragraph is there', () => {
       const tr = {} as unknown as Transform;
       const sc = {nodes: {paragraph: {}}} as unknown as Schema;
       const list_node = {} as unknown as NodeType;

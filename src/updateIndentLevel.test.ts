@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {updateIndentLevel,setNodeIndentMarkup} from './updateIndentLevel';
 import {Node, Schema} from 'prosemirror-model';
 import {EditorState} from 'prosemirror-state';

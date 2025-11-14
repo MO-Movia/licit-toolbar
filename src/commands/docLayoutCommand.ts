@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import * as React from 'react';
 import { Schema } from 'prosemirror-model';
 import { EditorState } from 'prosemirror-state';
@@ -6,7 +11,7 @@ import { EditorView } from 'prosemirror-view';
 
 import { SetDocAttrStep, UICommand } from '@modusoperandi/licit-doc-attrs-step';
 import DocLayoutEditor from '../ui/DocLayoutEditor';
-import { createPopUp, ThemeContext } from '@modusoperandi/licit-ui-commands';
+import { createPopUp } from '@modusoperandi/licit-ui-commands';
 
 import type { DocLayoutEditorValue } from '../ui/DocLayoutEditor';
 import { Editor } from '@tiptap/react';
@@ -31,7 +36,7 @@ class DocLayoutCommand extends UICommand {
   _popUp = null;
 
   getEditor = (): Editor => {
-    return UICommand.prototype.editor as Editor;
+    return UICommand.prototype.editor;
   };
 
   isEnabled = (_state: EditorState): boolean => {
@@ -95,7 +100,10 @@ class DocLayoutCommand extends UICommand {
   cancel(): void {
     return null;
   }
-  executeCustom(state: EditorState, tr: Transform, from: number, to: number): Transform {
+  executeCustom(_state: EditorState, tr: Transform, _from: number, _to: number): Transform {
+    return tr;
+  }
+  executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {
     return tr;
   }
 }

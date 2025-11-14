@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {consolidateListNodes} from './consolidateListNodes';
 import {compareNumber} from './compareNumber';
 import nullthrows from 'nullthrows';

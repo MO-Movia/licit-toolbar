@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {TextAlignCommand} from './TextAlignCommand';
 import {EditorState, TextSelection} from 'prosemirror-state';
 import {Schema} from 'prosemirror-model';
@@ -114,7 +119,7 @@ describe('TextAlignCommand', () => {
     expect(command.isActive(state)).toBeTruthy();
   });
 
-  it('expect function should be return false ', () => {
+  it('expect function should be return false', () => {
     const state = undefined as unknown as EditorState;
     const test = plugin.isEnabled(state);
     expect(test).toBeFalsy();

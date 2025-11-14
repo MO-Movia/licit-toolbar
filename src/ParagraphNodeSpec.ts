@@ -1,4 +1,9 @@
 
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import toCSSLineSpacing from './ToCSSLineSpacing';
 import convertToCSSPTValue from './ConvertToCSSPTValue';
 import { Node, NodeSpec, DOMOutputSpec } from 'prosemirror-model';

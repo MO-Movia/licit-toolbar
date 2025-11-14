@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {consolidateListNodes} from './consolidateListNodes';
 import {doc, li, ol, p, ul} from 'prosemirror-test-builder';
 import {EditorState, Transaction} from 'prosemirror-state';

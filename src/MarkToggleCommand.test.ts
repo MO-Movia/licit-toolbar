@@ -1,4 +1,9 @@
-import { MarkToggleCommand, toggleCustomStyle } from './index';
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
+import { MarkToggleCommand, toggleCustomStyle } from './MarkToggleCommand';
 import { EditorState } from 'prosemirror-state';
 import { Transform } from 'prosemirror-transform';
 import { Schema, Mark } from 'prosemirror-model';
