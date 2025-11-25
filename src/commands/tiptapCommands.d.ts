@@ -50,7 +50,7 @@ declare module '@tiptap/core' {
       toggleHeaderRow: () => ReturnType;
       toggleHeaderCell: () => ReturnType;
       mergeOrSplit: () => ReturnType;
-      setCellAttribute: (name: string, value: any) => ReturnType;
+      setCellAttribute: (name: string, value: string) => ReturnType;
       goToNextCell: () => ReturnType;
       goToPreviousCell: () => ReturnType;
       fixTables: () => ReturnType;

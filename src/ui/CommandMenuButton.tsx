@@ -16,7 +16,7 @@ import {
   ThemeContext,
 } from '@modusoperandi/licit-ui-commands';
 import {UICommand} from '@modusoperandi/licit-doc-attrs-step';
-import {uuid} from './uuid';
+import uuid from './uuid';
 import {isExpandButton} from '../EditorTollbarConfig';
 import '../styles/czi-custom-menu-button.css';
 import {EditorViewEx} from '../Constants';
@@ -25,7 +25,7 @@ export interface Arr {
 }
 type PropsType = {
   className?: string;
-  commandGroups: Array<any>;
+  commandGroups: Array<unknown>;
   disabled?: boolean;
   dispatch: (tr: Transform) => void;
   editorState: EditorState;
@@ -137,7 +137,6 @@ class CommandMenuButton extends React.PureComponent<PropsType, StateType> {
     const menu = this._menu;
     this._menu = null;
     menu?.close();
-    // alert('hello seybi');
   };
 
   _showMenu = (): void => {

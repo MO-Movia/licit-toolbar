@@ -5,6 +5,6 @@
 
 import {v1 as uuidv1} from 'uuid';
 
-export function uuid(): string {
+export default function uuid(): string {
   return uuidv1() as string;
 }

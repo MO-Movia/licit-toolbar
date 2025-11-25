@@ -3,10 +3,17 @@
  * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
  */
 
-import {toggleList, unwrapNodesFromListInternal, wrapItemsWithListInternal, wrapNodesWithList, wrapNodesWithListInternal} from './toggleList';
+import {
+  toggleList,
+  unwrapNodesFromListInternal,
+  wrapItemsWithListInternal,
+  wrapNodesWithList,
+  wrapNodesWithListInternal,
+} from './toggleList';
 import {Node, NodeType, Schema} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
-import { SelectionMemo } from './transformAndPreserveTextSelection';
+import {SelectionMemo} from './transformAndPreserveTextSelection';
+import {TextSelection, Transaction} from 'prosemirror-state';
 
 // import { ContentNodeWithPos } from 'prosemirror-utils/dist/types';
 describe('toggleList', () => {
@@ -102,11 +109,51 @@ describe('toggleList', () => {
   });
   it('should handle toggleList', () => {
     const tr = {
-      selection: {from: 1, to: 2},doc:dummyDoc
+      selection: {from: 1, to: 2},
+      doc: dummyDoc,
     } as unknown as Transform;
     const listNodeType = {} as unknown as NodeType;
     const test = toggleList(tr, schema, listNodeType, 'bold');
     expect(test).toBe(tr);
+  });
+  it('covers from=0 && to != 0 branch', () => {
+    const schema = new Schema({
+      nodes: {
+        doc: {content: 'paragraph+'},
+        paragraph: {content: 'text*', group: 'block'},
+        text: {inline: true},
+      },
+    });
+
+    const paragraph = schema.nodes.paragraph;
+    const doc = schema.node('doc', null, [
+      paragraph.create(null, schema.text('Line 1')),
+      paragraph.create(null, schema.text('Line 2')),
+    ]);
+
+    // Mock Transaction
+    const tr: Partial<Transaction> = {
+      doc,
+      selection: TextSelection.create(doc, 0, 2),
+      setSelection: jest.fn().mockImplementation(function (
+        selection: TextSelection
+      ) {
+        // Return a new object simulating the Transaction after setSelection
+        return {...this, selection} as Transaction;
+      }),
+    };
+
+    const listNodeType = {} as NodeType;
+
+    const result = toggleList(
+      tr as Transaction,
+      schema,
+      listNodeType,
+      'bullet'
+    );
+
+    expect(tr.setSelection).toHaveBeenCalled();
+    expect(result).toBeDefined();
   });
 
   describe('wrapItemsWithListInternal', () => {
@@ -168,7 +215,7 @@ describe('toggleList', () => {
       expect(test).toBeDefined();
     });
 
-    it('should return the transform if not equal to firstNode and lastNode', () => {
+    it('should return initial transform if node IDs are not found', () => {
       const tr = {
         setNodeMarkup: (_a) => {
           return {
@@ -197,7 +244,7 @@ describe('toggleList', () => {
 
       expect(test).toBeDefined();
     });
-    it('should return the transform if not equal to firstNode and lastNode', () => {
+    it('should return initial transform if fromPos or toPos is null', () => {
       const schema = new Schema({
         nodes: {
           doc: {content: 'block+'},
@@ -261,8 +308,8 @@ describe('toggleList', () => {
     });
   });
 });
-describe('wrapNodesWithListInternal',()=>{
-  it('should handle wrapNodesWithListInternal',()=>{
+describe('wrapNodesWithListInternal', () => {
+  it('should handle wrapNodesWithListInternal', () => {
     const mySchema = new Schema({
       nodes: {
         doc: {
@@ -326,18 +373,28 @@ describe('wrapNodesWithListInternal',()=>{
         ]),
       ]),
     ]);
-    dummyDoc.nodeAt = ()=>{return {} as unknown as Node;};
+    dummyDoc.nodeAt = () => {
+      return {} as unknown as Node;
+    };
     const tr = {
-      selection: {from: 1, to: 2},doc:dummyDoc,setNodeMarkup:()=>{return {
-        selection: {from: 1, to: 2},doc:dummyDoc,setNodeMarkup:()=>{return {};}
-      } as unknown as Transform;}
+      selection: {from: 1, to: 2},
+      doc: dummyDoc,
+      setNodeMarkup: () => {
+        return {
+          selection: {from: 1, to: 2},
+          doc: dummyDoc,
+          setNodeMarkup: () => {
+            return {};
+          },
+        } as unknown as Transform;
+      },
     } as unknown as Transform;
-    const memo = {tr:tr,schema:mySchema};
-    expect(wrapNodesWithListInternal(memo,null,'test')).toBeDefined();
+    const memo = {tr: tr, schema: mySchema};
+    expect(wrapNodesWithListInternal(memo, null, 'test')).toBeDefined();
   });
 });
-describe('unwrapNodesFromListInternal',()=>{
-  it('should handle unwrapNodesFromListInternal',()=>{
+describe('unwrapNodesFromListInternal', () => {
+  it('should handle unwrapNodesFromListInternal', () => {
     const mySchema = new Schema({
       nodes: {
         doc: {
@@ -401,25 +458,45 @@ describe('unwrapNodesFromListInternal',()=>{
         ]),
       ]),
     ]);
-    dummyDoc.nodeAt = ()=>{return {} as unknown as Node;};
+    dummyDoc.nodeAt = () => {
+      return {} as unknown as Node;
+    };
     const trA = {
-      selection: {from: 1, to: 2},doc:null,setNodeMarkup:()=>{return {
-        selection: {from: 1, to: 2},doc:dummyDoc,setNodeMarkup:()=>{return {};}
-      } as unknown as Transform;}
+      selection: {from: 1, to: 2},
+      doc: null,
+      setNodeMarkup: () => {
+        return {
+          selection: {from: 1, to: 2},
+          doc: dummyDoc,
+          setNodeMarkup: () => {
+            return {};
+          },
+        } as unknown as Transform;
+      },
     } as unknown as Transform;
     const trB = {
-      selection: {from: 1, to: 2},doc:dummyDoc,setNodeMarkup:()=>{return {
-        selection: {from: 1, to: 2},doc:dummyDoc,setNodeMarkup:()=>{return {};}
-      } as unknown as Transform;}
+      selection: {from: 1, to: 2},
+      doc: dummyDoc,
+      setNodeMarkup: () => {
+        return {
+          selection: {from: 1, to: 2},
+          doc: dummyDoc,
+          setNodeMarkup: () => {
+            return {};
+          },
+        } as unknown as Transform;
+      },
     } as unknown as Transform;
-    const memo = {tr:trA,schema:mySchema};
-    expect(unwrapNodesFromListInternal(memo,0)).toBeDefined();
-    const memoA = {tr:trB,schema:{nodes:{}}};
-    expect(unwrapNodesFromListInternal(memoA as unknown as SelectionMemo,0)).toBeDefined();
+    const memo = {tr: trA, schema: mySchema};
+    expect(unwrapNodesFromListInternal(memo, 0)).toBeDefined();
+    const memoA = {tr: trB, schema: {nodes: {}}};
+    expect(
+      unwrapNodesFromListInternal(memoA as unknown as SelectionMemo, 0)
+    ).toBeDefined();
   });
 });
-describe('wrapNodesWithList',()=>{
-  it('should handle wrapNodesWithList',()=>{
+describe('wrapNodesWithList', () => {
+  it('should handle wrapNodesWithList', () => {
     const mySchema = new Schema({
       nodes: {
         doc: {
@@ -483,14 +560,25 @@ describe('wrapNodesWithList',()=>{
         ]),
       ]),
     ]);
-    dummyDoc.nodeAt = ()=>{return {} as unknown as Node;};
+    dummyDoc.nodeAt = () => {
+      return {} as unknown as Node;
+    };
     const tr = {
-      getMeta:()=>{return {};},
-      selection: {from: 1, to: 2},doc:dummyDoc,setNodeMarkup:()=>{return {
-        selection: {from: 1, to: 2},doc:dummyDoc,setNodeMarkup:()=>{return {};}
-      } as unknown as Transform;}
+      getMeta: () => {
+        return {};
+      },
+      selection: {from: 1, to: 2},
+      doc: dummyDoc,
+      setNodeMarkup: () => {
+        return {
+          selection: {from: 1, to: 2},
+          doc: dummyDoc,
+          setNodeMarkup: () => {
+            return {};
+          },
+        } as unknown as Transform;
+      },
     } as unknown as Transform;
-    expect(wrapNodesWithList(tr,mySchema,null,'test')).toBeDefined();
+    expect(wrapNodesWithList(tr, mySchema, null, 'test')).toBeDefined();
   });
 });
-

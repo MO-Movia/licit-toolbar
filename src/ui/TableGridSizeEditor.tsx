@@ -38,14 +38,14 @@ class GridCell extends React.PureComponent<
   TableGridSizeEditorState
 > {
   render(): React.ReactElement<HTMLDivElement> {
-    const {x, y, selected} = this.props;
+    const {x, y, selected}: TableGridSizeEditorProps = this.props;
     const style = {
       left: x + 'px',
       top: y + 'px',
       width: CELL_SIZE + 'px',
       height: CELL_SIZE + 'px',
     };
-    const className = cx('czi-table-grid-size-editor-cell', {
+    const className: string = cx('czi-table-grid-size-editor-cell', {
       selected,
     });
     return <div className={className} style={style} />;

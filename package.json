@@ -60,6 +60,7 @@
     "classnames": "2.2.6",
     "color": "^3.1.2",
     "nullthrows": "^1.1.1",
+    "prop-types": "^15.8.1",
     "prosemirror-schema-basic": "^1.2.4",
     "prosemirror-state": "^1.4.4",
     "prosemirror-tables": "^1.8.1",

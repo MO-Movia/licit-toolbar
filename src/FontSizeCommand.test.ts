@@ -58,16 +58,6 @@ describe('FontSizeCommand', () => {
     });
     expect(test).toBe(false);
   });
-  it('should call when execute function return true', () => {
-    jest
-      .spyOn(applymark, 'applyMark')
-      .mockReturnValue({docChanged: true} as unknown as Transform);
-
-    const test = plugin.execute(state, (_x) => {
-      return '';
-    });
-    expect(test).toBe(true);
-  });
 
   it('should call when execute function return true', () => {
     jest.spyOn(applymark, 'applyMark').mockReturnValue({
@@ -179,7 +169,7 @@ describe('FontSizeCommand', () => {
   });
 });
 
-describe('FontSizeCommand', () => {
+describe('FontSizeCommand with schema', () => {
   let schema1;
   let command: FontSizeCommand;
   let dispatch: jest.Mock;

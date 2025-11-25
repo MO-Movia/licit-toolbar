@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Icon Components SubscriptIcon should render correctly 1`] = `
+<span
+  class="subscript-wrap"
+>
+  <span
+    class="subscript-base"
+  >
+    x
+  </span>
+  <span
+    class="subscript-bottom"
+  >
+    y
+  </span>
+</span>
+`;
+
+exports[`Icon Components SuperscriptIcon should render correctly 1`] = `
+<span
+  class="superscript-wrap"
+>
+  <span
+    class="superscript-base"
+  >
+    x
+  </span>
+  <span
+    class="superscript-top"
+  >
+    y
+  </span>
+</span>
+`;

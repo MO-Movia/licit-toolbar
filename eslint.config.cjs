@@ -7,9 +7,12 @@ module.exports = [
   {
     rules: {
       //Include any rule overrides here!
-      "sonarjs/todo-tag":"off",
-      "sonarjs/no-clear-text-protocols":"off",
-      "import/no-cycle":"off",
+      "sonarjs/todo-tag":"warn",
+      "sonarjs/no-clear-text-protocols":"warn",
+      "import/no-cycle":"warn",
+       "no-var": "warn",
+       "@typescript-eslint/dot-notation": "warn",
+
     },
   },
 ];

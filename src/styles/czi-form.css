@@ -40,8 +40,8 @@
 }
 
 .czi-form input[type='text'] {
-  border-width: 0 0 2px;
   border: var(--czi-border-blue);
+  border-width: 0 0 2px;
   box-sizing: border-box;
   display: block;
   font-family: var(--czi-font-family);

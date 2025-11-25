@@ -44,7 +44,7 @@ describe('FontTypeCommand', () => {
 
   it('should apply the font size mark to the current selection', () => {
     const state = EditorState.create({schema: schema1});
-    command.execute(state, undefined);
+    command.execute(state);
     const transform = new Transform(schema as unknown as Node);
     expect(dispatch).not.toHaveBeenCalledWith(expect.any(transform));
   });

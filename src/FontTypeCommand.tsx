@@ -37,7 +37,7 @@ export class FontTypeCommand extends UICommand {
   }
 
   renderLabel = (_state: EditorState): HTMLElement => {
-    return this._label;
+    return this._label as unknown as HTMLElement;
   };
 
   isEnabled = (state: EditorState): boolean => {

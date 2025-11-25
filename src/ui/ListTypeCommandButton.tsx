@@ -13,14 +13,15 @@ import {
   createPopUp,
   ThemeContext,
 } from '@modusoperandi/licit-ui-commands';
-import {uuid} from './uuid';
+import uuid from './uuid';
 import ListTypeMenu from './ListTypeMenu';
 import '../styles/czi-custom-menu-button.css';
-import { UICommand } from '@modusoperandi/licit-doc-attrs-step';
+import {UICommand} from '@modusoperandi/licit-doc-attrs-step';
 
 type ListTypeButtonType = {
   className?: string;
-  commandGroups: Array<UICommand>;
+  // commandGroups: Array<UICommand>;
+  commandGroups: Array<Array<{[key: string]: UICommand}>>;
   disabled?: boolean;
   dispatch: (tr: Transform) => void;
   editorState: EditorState;

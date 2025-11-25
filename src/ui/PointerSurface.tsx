@@ -7,7 +7,7 @@ import cx from 'classnames';
 import * as React from 'react';
 
 import {preventEventDefault} from './preventEventDefault';
-import {EditorView} from 'prosemirror-view';
+// import {EditorView} from 'prosemirror-view';
 
 export type PointerSurfaceProps = {
   active?: boolean;
@@ -15,12 +15,15 @@ export type PointerSurfaceProps = {
   className?: string;
   disabled?: boolean;
   id?: string;
-  onClick?: (val, e: React.SyntheticEvent) => void;
-  onMouseEnter?: (val, e: React.SyntheticEvent) => void;
+  // onClick?: (val, e: React.SyntheticEvent) => void;
+  // onMouseEnter?: (val, e: React.SyntheticEvent) => void;
+  onClick?: (val: unknown, e: React.SyntheticEvent) => void;
+  onMouseEnter?: (val: unknown, e: React.SyntheticEvent) => void;
   style?: Record<string, unknown>;
   target?: string;
   title?: string;
-  value?: string | number | Record<string, unknown> | EditorView | any;
+  // value?: string | number | Record<string, unknown> | EditorView | unknown;
+  value?: unknown;
   hasChild?: boolean;
 };
 

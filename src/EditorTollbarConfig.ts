@@ -8,6 +8,11 @@ import FontSizeCommandMenuButton from './ui/FontSizeCommandMenuButton';
 import FontTypeCommandMenuButton from './ui/FontTypeCommandMenuButton';
 import ListTypeCommandButton from './ui/ListTypeCommandButton';
 import Icon from './ui/Icon';
+import { ComponentType } from 'react';
+import { UICommand } from '@modusoperandi/licit-doc-attrs-step';
+import { EditorView } from 'prosemirror-view';
+import { EditorState } from 'prosemirror-state';
+import { Transform } from 'prosemirror-transform';
 
 const ICON_LABEL_PATTERN = /^\[((?!\[)[^\s]+)(\] )(.*)/;
 
@@ -15,6 +20,18 @@ type parseLabeltype = {
   icon;
   title;
 };
+interface CommandMenuButtonProps {
+  dispatch?: (tr: Transform) => void;
+  editorState: EditorState;
+  editorView?: EditorView;
+}
+type CommandEntry =
+  | UICommand
+  | ComponentType<CommandMenuButtonProps>
+  | CommandGroup[];  // For arrays like TEXT_LINE_SPACINGS
+export interface CommandGroup {
+  [key: string]: CommandEntry;
+}
 
 export const MORE = ' More';
 
@@ -142,7 +159,7 @@ export const FONT_ACTIONS_MINIMIZED = [
 // [FS] IRAD-1012 2020-07-14
 // Fix: Toolbar is poorly organized.
 
-export const COMMAND_GROUPS: any = [
+export const COMMAND_GROUPS: CommandGroup[] | UICommand[] = [
 
   {
     '[undo] Undo': HISTORY_UNDO,

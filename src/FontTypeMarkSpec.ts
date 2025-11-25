@@ -5,7 +5,6 @@
 
 import { Mark, MarkSpec } from 'prosemirror-model';
 
-// seybi need to optimise the code and make a coomon module for this
 import { AttrType } from './ParagraphNodeSpec';
 
 // [FS] IRAD-1061 2020-09-19
@@ -59,7 +58,7 @@ const FontTypeMarkSpec: MarkSpec = {
       style: 'font-family',
       getAttrs: (name: string): AttrType => {
         return {
-          name: name ? name.replace(/[\"\']/g, '') : '',
+          name: name ? name.replace(/["']/g, '') : '',
         };
       },
     },

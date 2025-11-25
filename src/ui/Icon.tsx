@@ -22,8 +22,8 @@ void (async function () {
   await canUseCSSFont(CSS_FONT);
 })();
 
-const importImage = (filename) => import(`@assets/images/${filename}`);
-class SuperscriptIcon extends React.PureComponent {
+export const importImage = (filename) => import(`@assets/images/${filename}`);
+export class SuperscriptIcon extends React.PureComponent {
   render(): React.ReactElement {
     return (
       <span className="superscript-wrap">
@@ -80,7 +80,7 @@ function IconEx({name, onCompleted, onError, ...rest}) {
   }
 }
 */
-class SubscriptIcon extends React.PureComponent {
+export class SubscriptIcon extends React.PureComponent {
   render(): React.ReactElement {
     return (
       <span className="subscript-wrap">
@@ -247,7 +247,7 @@ componentDidMount() {
     const t = this.props.theme ? this.props.theme : 'dark';
     console.warn('fromicon ' + t);
     
-    this.loadImage(t, fileName);
+    void this.loadImage(t, fileName);
   }
 }
 

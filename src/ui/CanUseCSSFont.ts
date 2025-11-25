@@ -15,7 +15,7 @@ export default function canUseCSSFont(fontName: string): Promise<boolean> {
   if (
     !doc.fonts ||
     !doc.fonts.check ||
-    !doc.fonts.ready ||
+    typeof doc.fonts.ready === 'undefined' ||
     !doc.fonts.status ||
     !doc.fonts.values
   ) {
@@ -41,6 +41,9 @@ export default function canUseCSSFont(fontName: string): Promise<boolean> {
       cached[fontName] = result;
       resolve(result);
     };
-    doc.fonts.ready.then(check);
+      doc.fonts.ready.then(check).catch((error) => {
+    console.error('Font loading error:', error);
+    resolve(false);
+  });
   });
 }

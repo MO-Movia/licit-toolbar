@@ -152,35 +152,6 @@ describe('updateIndentLevel', () => {
   });
 
   it('should be return tr inside setListNodeIndent function()', () => {
-    const state = {} as unknown as EditorState;
-    const tr = {
-      doc: dummyDoc,
-      selection: {from: 1, to: 2},
-      getMeta: () => {
-        return 'dryrun';
-      },
-      delete: () => {
-        return;
-      },
-    } as unknown as Transform;
-    const sc = {
-      nodes: {
-        paragraph: PARAGRAPH,
-        heading: HEADING,
-        blockquote: BLOCKQUOTE,
-        list_item: LIST_ITEM,
-      },
-    } as unknown as Schema;
-    const view = {} as unknown as EditorView;
-    jest.spyOn(isListNode, 'isListNode').mockReturnValue(true) as unknown as Node;
-    jest
-      .spyOn(consolidateListNodes,'consolidateListNodes')
-      .mockReturnValue(tr as unknown as Transform);
-    const test = updateIndentLevel(state, tr, sc, 5, view);
-    expect(test).toBeTruthy();
-  });
-
-  it('should be return tr inside setListNodeIndent function()', () => {
     const mySchema = new Schema({
       nodes: {
         doc: {

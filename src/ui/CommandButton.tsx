@@ -25,7 +25,7 @@ type CommandButtonProps = {
   sub?: boolean;
 };
 class CommandButton extends React.PureComponent<CommandButtonProps> {
-  static contextType = ThemeContext;
+  static readonly contextType = ThemeContext;
   declare context: React.ContextType<typeof ThemeContext>;
   declare props: CommandButtonProps;
 

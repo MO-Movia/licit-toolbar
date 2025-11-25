@@ -11,7 +11,7 @@ import {
 } from '@modusoperandi/licit-ui-commands';
 import * as React from 'react';
 import cx from 'classnames';
-import {uuid} from './uuid';
+import uuid from './uuid';
 
 class CustomRadioButton extends React.PureComponent {
   declare props: PointerSurfaceProps & {
