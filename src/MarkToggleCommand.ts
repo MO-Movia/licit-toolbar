@@ -116,7 +116,7 @@ export class MarkToggleCommand extends UICommand {
 // Return Transform object
 export function toggleCustomStyle(
   markType: MarkType,
-  attrs: Record<string, unknown> | null,
+  attrs: Record<string, unknown>,
   state: EditorState,
   tr: Transform,
   posfrom: number,

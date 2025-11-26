@@ -31,9 +31,9 @@ jest.mock('@modusoperandi/licit-ui-commands', () => {
         id: string;
         disabled: boolean;
         onClick: () => void;
-        label: string | React.ReactElement | null;
+        label: string | React.ReactElement;
         className?: string;
-        icon?: string | React.ReactElement | null;
+        icon?: string | React.ReactElement;
         title?: string;
         theme?: string;
       }) => <button data-testid="custom-button" {...props} />
@@ -199,7 +199,6 @@ describe('ListTypeButton', () => {
       });
 
       expect(mockUpdate).toBeDefined();
-      //   expect(mockUpdate).toHaveBeenCalledWith(
       //     expect.objectContaining({label: 'New Label'})
       //   );
     });

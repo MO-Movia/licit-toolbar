@@ -15,7 +15,7 @@ jest.mock('../findActiveFontType', () => {
   return {__esModule: true, default: fn};
 });
 
-//  Safe mock pattern for CommandMenuButton
+//  Safe mock pattern for CommandMenuButton, using `var` to avoid TDZ with jest.mock hoisting
 var _MockCommandMenuButton: jest.Mock;
 jest.mock('./commandMenuButton', () => {
   const fn = jest.fn((_props: jest.Mock) => null);

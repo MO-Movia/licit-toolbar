@@ -115,7 +115,6 @@ export class EditorToolbar extends React.PureComponent {
       }
       const m = this.processMenuItems(toolbarConfig);
       const k = this.groupMenuItems(m);
-      // let d = [this.orderedMenuData(k)];
       commandGroups = k.map(this._renderButtonsGroup_1).filter(Boolean);
     } else {
       // const theme = theme;
@@ -162,7 +161,6 @@ export class EditorToolbar extends React.PureComponent {
   //   return menuItems.reduce((acc, item) => {
 
   //     if (item.isPlugin) {
-
   //       const keysArray = Object.keys(item.menuCommand);
   //       // Access the first key
   //       const firstKey = keysArray && keysArray.length > 0 ? keysArray[0] : undefined;
@@ -179,9 +177,7 @@ export class EditorToolbar extends React.PureComponent {
 
   // processMenuItems(menuItems) {
 
-  //   return menuItems.reduce((acc, item) => {
   //     if (item.isPlugin) {
-  //       const keysArray = Object.keys(item.menuCommand);
   //       const firstKey = keysArray && keysArray.length > 0 ? keysArray[0] : undefined;
   //       if (firstKey) {
   //         acc[firstKey] = item.menuCommand[firstKey];
@@ -356,57 +352,6 @@ export class EditorToolbar extends React.PureComponent {
     return <div className={`czi-custom-buttons ${theme}`}>{buttons}</div>;
   };
 
-  // _renderButtonsGroup_Order = (
-  //   group: ToolbarMenuConfig,
-  //   index: number
-  // ): React.ReactElement => {
-
-  //   const theme = this.context;
-  //   console.log('se ' + theme);
-
-  //   const obj = group.menuCommand;
-  //   const buttons = this.createmenuButtons(group, theme.toString());
-
-  //   return (
-  //     <div className="czi-custom-buttons" key={'g' + String(index)}>
-  //       {buttons}
-  //     </div>
-  //   );
-  // };
-
-  // createmenuButtons = (
-  //   group: ToolbarMenuConfig,
-  //   theme: string
-  // ): React.ReactElement => {
-
-  //   if (isReactClass(group.menuCommand)) {
-  //     // JSX requies the component to be named with upper camel case.
-  //     const ThatComponent = group.menuCommand;
-  //     const { editorState, editorView, dispatchTransaction } = this.props;
-  //     return (
-  //       <ThatComponent
-  //         dispatch={dispatchTransaction}
-  //         editorState={editorState}
-  //         editorView={editorView}
-  //         key={group.key}
-  //       />
-  //     );
-  //   } else if (group.menuCommand instanceof UICommand) {
-  //     return this._renderButton(group.key, group.menuCommand, theme.toString());
-  //   } else if (Array.isArray(group.menuCommand)) {
-  //     return this._renderMenuButton(group.key, group.menuCommand);
-  //   } else {
-
-  //     const keysArray = Object.keys(group.menuCommand);
-
-  //     // Access the first key
-  //     const firstKey = keysArray && keysArray.length > 0 ? keysArray[0] : undefined;
-  //     if (firstKey && Array.isArray(group.menuCommand[firstKey])) {
-  //       return this._renderMenuButton(group.key, group.menuCommand[firstKey]);
-  //     }
-  //     return null;
-  //   }
-  // }
   _renderMenuButton = (
     label: string,
     commandGroups: CommandGroup[]

@@ -40,7 +40,7 @@ describe('FontTypeMarkSpec (Karma - No Schema - Type Corrected)', () => {
   describe('parseDOM: getAttrs', () => {
     // Safely extract the getAttrs function
     const getAttrsFn = FontTypeMarkSpec.parseDOM[0].getAttrs as (
-      value: string | null
+      value: string
     ) => FontAttrs | false;
 
     it('should extract and clean font-family from a style value', () => {

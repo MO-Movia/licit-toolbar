@@ -570,7 +570,7 @@ describe('MarkToggleCommand', () => {
     });
 
     const textColorMark = schema.marks['mark-text-color'];
-    const linkMark = schema.marks['link'];
+    const linkMark = schema.marks.link;
 
     it('should add color mark if node has no marks', () => {
       const doc = schema.node('doc', null, [
@@ -587,14 +587,6 @@ describe('MarkToggleCommand', () => {
       const textNode = newTr.doc.resolve(1).nodeAfter;
 
       expect(textNode).toBeTruthy();
-      // expect(textNode.marks.length).toBeGreaterThan(0);
-
-      // const mark = textNode.marks.find(
-      //   (m) => m.type.name === 'mark-text-color'
-      // );
-
-      // expect(mark).toBeDefined();
-      // expect(mark.attrs.color).toBe('blue');
     });
 
     it('should not add color mark if node already has a link mark', () => {

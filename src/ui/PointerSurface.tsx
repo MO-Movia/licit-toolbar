@@ -7,7 +7,6 @@ import cx from 'classnames';
 import * as React from 'react';
 
 import {preventEventDefault} from './preventEventDefault';
-// import {EditorView} from 'prosemirror-view';
 
 export type PointerSurfaceProps = {
   active?: boolean;
@@ -96,7 +95,7 @@ export class PointerSurface extends React.PureComponent {
     this._pressedTarget = null;
     this._clicked = false;
 
-    if (e['which'] === 3 || e.button == 2) {
+    if (e.button === 2) {
       // right click.
       return;
     }

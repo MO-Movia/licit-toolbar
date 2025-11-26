@@ -8,7 +8,12 @@ import * as ReactDOM from 'react-dom';
 
 //  Mock PointerSurface to simulate click behavior
 jest.mock('@modusoperandi/licit-ui-commands', () => ({
-  PointerSurface: (props: { className?: string; title?: string; onClick?: (value: string, event: React.MouseEvent) => void; children?: React.ReactNode; }) => (
+  PointerSurface: (props: {
+    className?: string;
+    title?: string;
+    onClick?: (value: string, event: React.MouseEvent) => void;
+    children?: React.ReactNode;
+  }) => (
     <div
       className={props.className}
       title={props.title}
@@ -48,12 +53,14 @@ describe('CustomRadioButton (pure Jest)', () => {
     ReactDOM.render(<CustomRadioButton />, container);
     const input = container.querySelector('input[type="radio"]');
     expect(input).not.toBeNull();
-    expect(input.classList.contains('czi-custom-radio-button-input')).toBe(true);
+    expect(input.classList.contains('czi-custom-radio-button-input')).toBe(
+      true
+    );
   });
 
   it('disables the radio button when disabled prop is passed', () => {
     ReactDOM.render(<CustomRadioButton disabled />, container);
-    const input = container.querySelector('input[type="radio"]') ;
+    const input = container.querySelector('input[type="radio"]');
     expect(input['disabled']).toBe(true);
   });
 
@@ -73,8 +80,8 @@ describe('CustomRadioButton (pure Jest)', () => {
   it('calls onSelect handler when clicked', () => {
     const handleSelect = jest.fn();
     ReactDOM.render(<CustomRadioButton onSelect={handleSelect} />, container);
-    const surface = container.querySelector('[data-testid="pointer-surface"]') ;
-    surface['click']();
+    const surface = container.querySelector('[data-testid="pointer-surface"]');
+    (surface as HTMLElement).click();
     expect(handleSelect).toHaveBeenCalled();
   });
 });

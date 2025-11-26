@@ -15,7 +15,6 @@ import {Transform} from 'prosemirror-transform';
 import {SelectionMemo} from './transformAndPreserveTextSelection';
 import {TextSelection, Transaction} from 'prosemirror-state';
 
-// import { ContentNodeWithPos } from 'prosemirror-utils/dist/types';
 describe('toggleList', () => {
   let schema;
   let trr;

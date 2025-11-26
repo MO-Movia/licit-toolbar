@@ -34,7 +34,6 @@ class CommandMenu extends React.PureComponent<PropsType> {
     const {commandGroups, editorState, title, theme} = this.props;
     const children = [];
     const jj = commandGroups.length - 1;
-    // const theme = this.context;
     commandGroups.forEach((group, ii) => {
       Object.keys(group).forEach((label) => {
         const command = group[label];
@@ -62,7 +61,7 @@ class CommandMenu extends React.PureComponent<PropsType> {
     label: string,
     command: UICommand,
     editorState: EditorState,
-    icon: string | React.ReactElement | null,
+    icon: string | React.ReactElement,
     theme: string
   ): React.ReactElement<CustomMenuItem> => {
     return (

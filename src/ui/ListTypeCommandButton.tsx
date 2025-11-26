@@ -26,8 +26,8 @@ type ListTypeButtonType = {
   dispatch: (tr: Transform) => void;
   editorState: EditorState;
   editorView: EditorView;
-  icon?: string | React.ReactElement | null;
-  label?: string | React.ReactElement | null;
+  icon?: string | React.ReactElement;
+  label?: string | React.ReactElement;
   title?: string;
   theme?: string;
 };
@@ -65,7 +65,6 @@ class ListTypeButton extends React.PureComponent<ListTypeButtonType> {
       'czi-custom-menu-button': true,
       expanded,
     });
-    // const theme = this.context;
     return (
       <CustomButton
         className={buttonClassName}

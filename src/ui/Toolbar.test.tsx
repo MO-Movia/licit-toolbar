@@ -15,7 +15,7 @@ import {EditorViewEx} from '../Constants';
 import {ToolbarMenuConfig} from '../Types';
 import {Schema} from 'prosemirror-model';
 
-type IconOrLabel = string | React.ReactElement | null;
+type IconOrLabel = string | React.ReactElement;
 
 // Mock ResizeObserver to control its behavior and track calls
 const mockObserve = jest.fn();
@@ -95,7 +95,7 @@ jest.mock('@modusoperandi/licit-ui-commands', () => ({
   }: {
     className?: string;
     active?: boolean;
-    icon?: string | React.ReactElement | null;
+    icon?: string | React.ReactElement;
     onClick?: (value: number) => void;
     title?: string;
     value?: number;
@@ -134,7 +134,6 @@ jest.mock('./Icon', () => ({
   },
 }));
 
-// jest.mock('../ResizeObserver', () => ({
 //   __esModule: true,
 //   default: {
 //     observe: jest.fn(),
@@ -142,8 +141,6 @@ jest.mock('./Icon', () => ({
 //   },
 // }));
 
-// jest.mock('react-dom', () => ({
-//   ...jest.requireActual('react-dom'),
 //   findDOMNode: jest.fn((ref: React.ReactInstance | null) => {
 //     if (!ref) return null;
 //     // Mock implementation that returns a fake HTMLElement

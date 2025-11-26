@@ -29,7 +29,7 @@ const DUMMY_RECT = {x: -10000, y: -10000, w: 0, h: 0};
 
 export class PopUpManager {
   _bridges = new Map<PopUpBridge, number>();
-  _positions = new Map<PopUpBridge, string | null>();
+  _positions = new Map<PopUpBridge, string>();
   isColorPicker = false;
 
   _mx = 0;

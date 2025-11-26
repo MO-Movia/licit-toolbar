@@ -65,10 +65,7 @@ describe('findNodesWithSameMark', () => {
       ]),
     ]);
     const result = findNodesWithSameMark(doc, 1, 9, schema.marks.strong);
-    // expect(result).not.toBeNull();
     expect(result.mark).toBeDefined();
-    // expect(result.from.pos).toBe(1);
-    // expect(result.to.pos).toBe(9);
   });
 
   it('should expand the range backwards to include preceding nodes with the same mark', () => {
