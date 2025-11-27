@@ -47,8 +47,7 @@ class ListTypeButton extends React.PureComponent<ListTypeButtonType> {
       this.props;
     const enabled =
       !disabled &&
-      commandGroups &&
-      commandGroups.some((group, _ii) => {
+      commandGroups?.some((group, _ii) => {
         return Object.keys(group).some((_label) => {
           let disabledVal = true;
           try {

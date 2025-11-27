@@ -48,7 +48,11 @@ function handleResizeObserverEntry(entry: ResizeObserverEntry): void {
   const node = entry.target;
   const callbacks = nodesObserving.get(node);
   const executeCallback = (cb:ResizeCallback) => cb(entry);
-  callbacks?.forEach(executeCallback);
+  if (callbacks) {
+    for (const cb of callbacks) {
+      executeCallback(cb);
+    }
+  }
 }
 
 export function observe(

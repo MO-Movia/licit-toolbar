@@ -9,7 +9,6 @@ import * as React from 'react';
 import {preventEventDefault} from './preventEventDefault';
 
 export type PointerSurfaceProps = {
-  active?: boolean;
   children?;
   className?: string;
   disabled?: boolean;
@@ -95,7 +94,7 @@ export class PointerSurface extends React.PureComponent {
     this._pressedTarget = null;
     this._clicked = false;
 
-    if (e.button === 2) {
+    if (e['which'] === 3 || e.button == 2) {
       // right click.
       return;
     }

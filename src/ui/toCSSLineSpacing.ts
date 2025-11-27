@@ -22,7 +22,7 @@ export function toCSSLineSpacing(source: string): string {
   let strValue = String(source);
 
   // e.g. line-height: 1.5;
-  const numValue = parseFloat(strValue);
+  const numValue = Number.parseFloat(strValue);
   const lastChar = strValue[strValue.length - 1];
   // can parse number and last char is a number
   if (!Number.isNaN(numValue) && '0' <= lastChar && lastChar <= '9') {

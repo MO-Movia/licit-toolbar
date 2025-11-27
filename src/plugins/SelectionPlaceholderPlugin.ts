@@ -63,7 +63,7 @@ class SelectionPlaceholderPlugin extends Plugin {
   constructor() {
     super(SPEC);
     if (singletonInstance) {
-      return singletonInstance as SelectionPlaceholderPlugin;
+      return singletonInstance as SelectionPlaceholderPlugin; // NOSONAR
     }
     singletonInstance = this as SelectionPlaceholderPlugin;
   }

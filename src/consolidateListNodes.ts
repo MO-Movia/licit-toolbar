@@ -92,145 +92,70 @@ export function consolidateListNodes(tr: Transaction): Transform {
  *   --------
  * This means that the 1st and the 3rd lists are linked.
  */
+function linkOrderedListCounters(tr: Transform): Transform {
+  const from = 1;
+  const to = tr.doc.nodeSize - 2;
+  if (from >= to) return tr;
 
-function determineCounterLink(
-  listsBefore: Array<{node: Node; indent: number}>,
-  node: Node,
-  indent: number
-): boolean {
-  let counterIsLinked: boolean;
+  const namedLists = new Set();
+  let listsBefore: Array<{ node: Node; parentNode: Node; indent: number }> = null;
 
-  listsBefore.some(({node: {type}, indent: listIndent}) => {
-    if (listIndent < indent || (listIndent === indent && type !== node.type)) {
-      counterIsLinked = false;
-      return true;
+  const processOrderedList = (node: Node, pos: number, indent: number) => {
+    if (!listsBefore) {
+      listsBefore = [];
+      if (isOrderedListNode(node)) {
+        const { following } = node.attrs;
+        const counterIsLinked = namedLists.has(following);
+        tr = setCounterLinked(tr, pos, counterIsLinked);
+      }
+      return;
     }
-    if (listIndent === indent) {
-      counterIsLinked = true;
-      return true;
-    }
-    return false;
-  });
 
-  return counterIsLinked;
-}
+    if (node.attrs.start !== 1 || !isOrderedListNode(node)) return;
 
-function handleOrderedListCounter(
-  tr: Transform,
-  pos: number,
-  node: Node,
-  start: number,
-  indent: number,
-  listsBefore: Array<{node: Node; indent: number; parentNode: Node}>,
-  namedLists: Set<string>,
-  following: string
-): Transform {
-  if (start !== 1 || !isOrderedListNode(node)) {
-    return tr;
-  }
-
-  if (listsBefore) {
-    const counterIsLinked = determineCounterLink(listsBefore, node, indent);
+    const counterIsLinked = determineLinkStatus(node, indent);
     if (counterIsLinked !== undefined) {
       tr = setCounterLinked(tr, pos, counterIsLinked);
     }
-  } else {
-    const counterIsLinked = namedLists.has(following);
-    tr = setCounterLinked(tr, pos, counterIsLinked);
-  }
+  };
 
-  return tr;
-}
+  const determineLinkStatus = (node: Node, indent: number): boolean => {
+    let linked: boolean ;
 
-function processListNode(
-  tr: Transform,
-  pos: number,
-  node: Node,
-  parentNode: Node,
-  listsBefore: Array<{node: Node; indent: number; parentNode: Node}>,
-  namedLists: Set<string>
-): {
-  tr: Transform;
-  listsBefore: Array<{node: Node; indent: number; parentNode: Node}>;
-} {
-  const indent = node.attrs.indent || 0;
-  const start = node.attrs.start || 1;
-  const {name, following} = node.attrs;
+    listsBefore.some(({ node: prevNode, indent: prevIndent }) => {
+      if (prevIndent < indent || (prevIndent === indent && prevNode.type !== node.type)) {
+        linked = false;
+        return true;
+      }
+      if (prevIndent === indent) {
+        linked = true;
+        return true;
+      }
+      return false;
+    });
 
-  if (name) {
-    namedLists.add(name);
-  }
-
-  let updatedListsBefore = listsBefore;
-
-  if (listsBefore) {
-    tr = handleOrderedListCounter(
-      tr,
-      pos,
-      node,
-      start,
-      indent,
-      listsBefore,
-      namedLists,
-      following
-    );
-  } else {
-    updatedListsBefore = [];
-    tr = handleOrderedListCounter(
-      tr,
-      pos,
-      node,
-      start,
-      indent,
-      null,
-      namedLists,
-      following
-    );
-  }
-
-  updatedListsBefore?.unshift({parentNode, indent, node});
-
-  return {tr, listsBefore: updatedListsBefore};
-}
-
-export function linkOrderedListCounters(tr: Transform): Transform {
-  const from = 1;
-  const to = tr.doc.nodeSize - 2;
-  if (from >= to) {
-    return tr;
-  }
-
-  const namedLists: Set<string> = new Set();
-  let listsBefore: Array<{
-    node: Node;
-    indent: number;
-    parentNode: Node;
-  }> = null;
+    return linked;
+  };
 
   tr.doc.nodesBetween(from, to, (node, pos, parentNode) => {
-    let willTraverseNodeChildren = true;
-
-    if (isListNode(node)) {
-      willTraverseNodeChildren = false;
-      const result = processListNode(
-        tr,
-        pos,
-        node,
-        parentNode,
-        listsBefore,
-        namedLists
-      );
-      tr = result.tr;
-      listsBefore = result.listsBefore;
-    } else {
+    if (!isListNode(node)) {
       listsBefore = null;
+      return true;
     }
 
-    return willTraverseNodeChildren;
+    const indent = node.attrs.indent || 0;
+    const { name } = node.attrs;
+    if (name) namedLists.add(name);
+
+    processOrderedList(node, pos, indent);
+    listsBefore.unshift({ parentNode, indent, node });
+
+    return false; // Avoid traversing into list children
   });
 
   return tr;
 }
+
 
 function setCounterLinked(
   tr: Transform,

@@ -15,7 +15,7 @@ export default function canUseCSSFont(fontName: string): Promise<boolean> {
   if (
     !doc.fonts ||
     !doc.fonts.check ||
-    typeof doc.fonts.ready === 'undefined' ||
+     doc.fonts.ready === undefined ||
     !doc.fonts.status ||
     !doc.fonts.values
   ) {
@@ -36,7 +36,7 @@ export default function canUseCSSFont(fontName: string): Promise<boolean> {
       }
       // Do not use `doc.fonts.check()` because it may return falsey result.
       const fontFaces = Array.from(doc.fonts.values());
-      const matched = fontFaces.find((ff) => ff['family'] === fontName);
+      const matched = fontFaces.find((ff) => ff.family === fontName);
       const result = !!matched;
       cached[fontName] = result;
       resolve(result);

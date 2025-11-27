@@ -16,7 +16,7 @@ const cached = {};
 
 const CSS_FONT = 'Material Icons';
 
-void (async function () {
+void (async function () { // NOSONAR
   // Inject CSS Fonts reuqired for toolbar icons.
   await canUseCSSFont(CSS_FONT);
 })();

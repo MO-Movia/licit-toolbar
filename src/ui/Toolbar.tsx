@@ -76,7 +76,7 @@ export class EditorToolbar extends React.PureComponent {
       />
     ) : null;
 
-    if (toolbarConfig && toolbarConfig.length > 0) {
+    if (toolbarConfig?.length > 0) {
       toolbarConfig.sort((a, b) => a.menuPosition - b.menuPosition);
       const pluginObjects = toolbarConfig
         .filter((item) => item.isPlugin === true)
@@ -100,8 +100,8 @@ export class EditorToolbar extends React.PureComponent {
         .filter(Boolean); // Remove null entries
       console.warn(pluginObjects);
 
-      if (pluginObjects && pluginObjects.length > 0) {
-        toolbarConfig.forEach((obj2) => {
+      if (pluginObjects?.length > 0) {
+        for (const obj2 of toolbarConfig) {
           const correspondingObj = pluginObjects.find(
             (obj1) => obj1.key === obj2.key
           );
@@ -109,7 +109,7 @@ export class EditorToolbar extends React.PureComponent {
             obj2.menuCommand = correspondingObj.menuCommand;
             obj2.key = correspondingObj.key;
           }
-        });
+        };
 
         console.warn(toolbarConfig);
       }
@@ -121,7 +121,7 @@ export class EditorToolbar extends React.PureComponent {
       // Start with static button controls and append any button groups
       // supplied by plugins
       commandGroups = COMMAND_GROUPS.concat(
-        ((this.props.editorState && this.props.editorState.plugins) || [])
+        ((this.props.editorState?.plugins) || [])
           .map(
             (p) =>
               'initButtonCommands' in p &&
@@ -250,21 +250,7 @@ export class EditorToolbar extends React.PureComponent {
 
     return groups;
   };
-
-  sortGroupItems = (items: {order: number}[]) => {
-    return items.sort((a, b) => a.order - b.order);
-  };
-  orderedMenuData = (
-    menuData: Record<string, {order: number}[]>
-  ): Record<string, {order: number}[]> =>
-    Object.entries(menuData).reduce(
-      (acc: Record<string, {order: number}[]>, [groupName, items]) => {
-        acc[groupName] = this.sortGroupItems(items);
-        return acc;
-      },
-      {}
-    );
-
+ 
   _renderButtonsGroup = (
     group: CommandGroup,
     _index: number
@@ -312,7 +298,7 @@ export class EditorToolbar extends React.PureComponent {
     const newgroup = group[keys[0]];
     const buttons = [];
     let index = 0;
-    Object.entries(newgroup).forEach(([_key, value]) => {
+    for (const [, value] of Object.entries(newgroup)) {
       buttons.push(
         Object.keys(value)
           .map((label) => {
@@ -347,7 +333,7 @@ export class EditorToolbar extends React.PureComponent {
           })
           .filter(Boolean)
       );
-    });
+    };
 
     return <div className={`czi-custom-buttons ${theme}`}>{buttons}</div>;
   };

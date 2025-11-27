@@ -23,7 +23,7 @@ export default function toCSSLineSpacing(source: string | number): string {
 
   // e.g. line-height: 1.5;
   if (NUMBER_VALUE_PATTERN.test(strValue)) {
-    const numValue = parseFloat(strValue);
+    const numValue = Number.parseFloat(strValue);
     strValue = String(Math.round(numValue * 100)) + '%';
   }
 

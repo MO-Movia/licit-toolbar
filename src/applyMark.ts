@@ -286,8 +286,8 @@ function handleGeneralMark(
 
   if (undefined === isCustomStyleApplied) {
     tr = tr.addMark(origFrom, origTo, markType.create(attrs));
-  } else {
-    if (nodeTr) {
+  }
+   if (undefined !== isCustomStyleApplied && nodeTr) {
       let from = origFrom;
       let to = 0;
       nodeTr.descendants((child) => {
@@ -304,8 +304,7 @@ function handleGeneralMark(
         }
       });
     }
-  }
-  return tr;
+    return tr;
 }
 
 function processRange(

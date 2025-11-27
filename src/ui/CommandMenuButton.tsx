@@ -34,7 +34,6 @@ type PropsType = {
   label?: string | React.ReactElement;
   title?: string;
   sub?: boolean;
-  theme?: string;
 };
 type StateType = {
   expanded: boolean;

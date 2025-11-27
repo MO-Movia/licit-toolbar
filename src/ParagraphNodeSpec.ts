@@ -88,7 +88,7 @@ function getAttrs(dom: HTMLElement): Record<string, unknown> {
   let align = dom.getAttribute('align') || textAlign || '';
   align = ALIGN_PATTERN.test(align) ? align : null;
 
-  let indent = parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10);
+  let indent = Number.parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10);
 
   if (!indent && marginLeft) {
     indent = convertMarginLeftToIndentValue(marginLeft);
