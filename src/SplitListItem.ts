@@ -1,4 +1,9 @@
-import {uuid} from './ui/uuid';
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
+import uuid from './ui/uuid';
 import { Fragment, Schema } from 'prosemirror-model';
 import { TextSelection, Transaction, NodeSelection } from 'prosemirror-state';
 import { Transform, canSplit } from 'prosemirror-transform';
@@ -198,3 +203,5 @@ function splitEmptyListItem(tr: Transform, schema: Schema): Transform {
   );
   return tr;
 }
+
+export { splitEmptyListItem };

@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {Schema} from 'prosemirror-model';
 import {clearHeading, clearMarks} from './clearMarks';
 import {EditorState, TextSelection} from 'prosemirror-state';
@@ -71,7 +76,7 @@ describe('clearMarks', () => {
     expect(clearmarks).toBe(tr);
   });
 
-  it('it should return a transform when doc and selection are not present', () => {
+  it('should return a transform when doc and selection are not present', () => {
     const schema1 = new Schema({
       nodes: {
         doc: {content: 'paragraph+'},
@@ -89,7 +94,7 @@ describe('clearMarks', () => {
     expect(clearmarks).toBe(tr);
   });
 
-  it('it should return a transform', () => {
+  it('should return a transform', () => {
     const schema1 = new Schema({
       nodes: {
         doc: {content: 'paragraph+'},

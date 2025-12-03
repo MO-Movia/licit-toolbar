@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import '@tiptap/react';
 
 /*Module Augmentation: This is useful when a library provides additional functionality (via extensions) that isn't declared in its original type definitions.*/
@@ -45,7 +50,7 @@ declare module '@tiptap/core' {
       toggleHeaderRow: () => ReturnType;
       toggleHeaderCell: () => ReturnType;
       mergeOrSplit: () => ReturnType;
-      setCellAttribute: (name: string, value: any) => ReturnType;
+      setCellAttribute: (name: string, value: string) => ReturnType;
       goToNextCell: () => ReturnType;
       goToPreviousCell: () => ReturnType;
       fixTables: () => ReturnType;

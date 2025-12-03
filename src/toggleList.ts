@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {consolidateListNodes} from './consolidateListNodes';
 import {compareNumber} from './compareNumber';
 import nullthrows from 'nullthrows';
@@ -139,13 +144,18 @@ export function wrapNodesWithListInternal(
         };
         tr = tr.setNodeMarkup(pos, listNodeType, listNodeAttrs, node.marks);
       }
-      items && lists.push(items);
+      if (items) {
+        lists.push(items);
+      }
       items = null;
       return false;
     }
 
     if (/table/.test(nodeName)) {
-      items && lists.push(items);
+      if (items) {
+        lists.push(items);
+      }
+
       items = null;
       return true;
     }
@@ -154,12 +164,16 @@ export function wrapNodesWithListInternal(
       items = items || [];
       items.push({node, pos});
     } else {
-      items?.length && lists.push(items);
+      if (items) {
+        lists.push(items);
+      }
       items = null;
     }
     return true;
   });
-  items?.length && lists.push(items);
+  if (items) {
+    lists.push(items);
+  }
 
   lists = lists.filter((items) => items.length > 0);
   if (!lists.length) {
@@ -357,7 +371,7 @@ function unwrapNodesFromSelection(
       if (unwrapParagraphNode) {
         return unwrapParagraphNode(block.node);
       } else {
-        return block.node;
+        return block.node as Node;
       }
     });
     const frag = Fragment.from(nodes);

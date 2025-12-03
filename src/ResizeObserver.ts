@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import ResizeObserver from 'resize-observer-polyfill';
 import nullthrows from 'nullthrows';
 
@@ -42,8 +47,12 @@ function onResizeObserve(entries: Entries): void {
 function handleResizeObserverEntry(entry: ResizeObserverEntry): void {
   const node = entry.target;
   const callbacks = nodesObserving.get(node);
-  const executeCallback = (cb) => cb(entry);
-  callbacks && callbacks.forEach(executeCallback);
+  const executeCallback = (cb:ResizeCallback) => cb(entry);
+  if (callbacks) {
+    for (const cb of callbacks) {
+      executeCallback(cb);
+    }
+  }
 }
 
 export function observe(

@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import { EditorState, TextSelection } from 'prosemirror-state';
 import { findParentNodeOfType } from 'prosemirror-utils';
 
@@ -31,9 +36,8 @@ export default function findActiveFontSize(state: EditorState): string {
     const storedMarks =
       tr.storedMarks ||
       state.storedMarks ||
-      ((selection as TextSelection).$cursor &&
-        (selection as TextSelection).$cursor.marks &&
-        (selection as TextSelection).$cursor.marks()) ||
+      ((selection as TextSelection)?.$cursor.marks &&
+        (selection as TextSelection)?.$cursor.marks()) ||
       [];
     const sm = storedMarks.find((m) => m.type === markType);
     return sm ? String(sm.attrs.pt || defaultSize) : defaultSize;
@@ -51,5 +55,5 @@ export default function findActiveFontSize(state: EditorState): string {
     return defaultSize;
   }
   const level = String(result.node.attrs.level);
-  return MAP_HEADING_LEVEL_TO_FONT_PT_SIZE[level] || defaultSize;
+  return MAP_HEADING_LEVEL_TO_FONT_PT_SIZE[level] as string || defaultSize;
 }

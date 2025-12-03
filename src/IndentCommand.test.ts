@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {IndentCommand} from './IndentCommand';
 import {EditorState, TextSelection} from 'prosemirror-state';
 import {Schema} from 'prosemirror-model';

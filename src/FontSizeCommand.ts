@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {UICommand} from '@modusoperandi/licit-doc-attrs-step';
 import {applyMark} from './applyMark';
 import {isTextStyleMarkCommandEnabled} from './isTextStyleMarkCommandEnabled';
@@ -89,7 +94,9 @@ export class FontSizeCommand extends UICommand {
     );
     return tr;
   };
-
+executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {
+    return tr;
+  }
   isActive(): boolean {
     return true;
   }

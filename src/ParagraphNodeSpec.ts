@@ -1,4 +1,9 @@
 
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import toCSSLineSpacing from './ToCSSLineSpacing';
 import convertToCSSPTValue from './ConvertToCSSPTValue';
 import { Node, NodeSpec, DOMOutputSpec } from 'prosemirror-model';
@@ -83,7 +88,7 @@ function getAttrs(dom: HTMLElement): Record<string, unknown> {
   let align = dom.getAttribute('align') || textAlign || '';
   align = ALIGN_PATTERN.test(align) ? align : null;
 
-  let indent = parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10);
+  let indent = Number.parseInt(dom.getAttribute(ATTRIBUTE_INDENT), 10);
 
   if (!indent && marginLeft) {
     indent = convertMarginLeftToIndentValue(marginLeft);
@@ -142,7 +147,9 @@ function toDOM(node: Node): DOMOutputSpec {
   const attrs = { style: '', id: '' };
   const style = getStyle(node.attrs);
 
-  style && (attrs.style = style);
+  if (style) {
+    attrs.style = style;
+  }
 
   if (indent) {
     attrs[ATTRIBUTE_INDENT] = String(indent);
@@ -160,7 +167,10 @@ export const getParagraphStyle = getStyle;
 
 export function convertMarginLeftToIndentValue(marginLeft: string): number {
   const ptValue = convertToCSSPTValue(marginLeft);
-  return Math.min(Math.max(Math.floor(ptValue / INDENT_MARGIN_PT_SIZE), MIN_INDENT_LEVEL), MAX_INDENT_LEVEL);
+  return Math.min(
+    Math.max(Math.floor(ptValue / INDENT_MARGIN_PT_SIZE), MIN_INDENT_LEVEL),
+    MAX_INDENT_LEVEL
+  );
 }
 
 export default ParagraphNodeSpec;

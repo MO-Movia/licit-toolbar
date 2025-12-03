@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {
   atAnchorBottomLeft,
   atAnchorBottomCenter,
@@ -79,7 +84,7 @@ describe('atAnchorRight', () => {
     expect(result).toEqual({x: -10000, y: 20, w: 0, h: 0});
   });
 
-  it(' should return the correct rect when anchorRect is not provided', () => {
+  it('should return the correct rect when anchorRect is not provided', () => {
     const result = atAnchorRight(undefined, {x: 0, y: 0, w: 50, h: 60});
     expect(result).toEqual({x: -10000, y: 0, w: 0, h: 0});
   });
@@ -101,7 +106,7 @@ describe('atViewportCenter', () => {
   });
 
   it('should return the correct rect when bodyRect is not provided', () => {
-    const result = atViewportCenter(undefined, undefined);
+    const result = atViewportCenter();
     expect(result).toEqual({x: -10000, y: 0, w: 0, h: 0});
   });
 });

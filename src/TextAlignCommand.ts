@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {Schema} from 'prosemirror-model';
 import {EditorState, TextSelection, Transaction} from 'prosemirror-state';
 import {Transform} from 'prosemirror-transform';
@@ -89,10 +94,7 @@ export class TextAlignCommand extends UICommand {
   };
 
   isEnabled = (state: EditorState): boolean => {
-    if (state) {
-      return true;
-    }
-    return false;
+    return !!state;
   };
 
   waitForUserInput = (
@@ -151,7 +153,9 @@ export class TextAlignCommand extends UICommand {
     );
     return tr;
   };
-
+  executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {
+    return tr;
+  }
   renderLabel() {
     return null;
   }

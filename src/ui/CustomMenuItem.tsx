@@ -1,16 +1,22 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import '../styles/czi-custom-menu-item.css';
 import {
   CustomButton,
   PointerSurfaceProps,
-  TextAlignCommand,
-  ThemeContext
+  ThemeContext,
 } from '@modusoperandi/licit-ui-commands';
 import * as React from 'react';
 type CustomButtonProps = PointerSurfaceProps & {
-  icon?: string | React.ReactElement | null;
-  label?: string | React.ReactElement | null;
+  icon?: string | React.ReactElement;
+  label?: string | React.ReactElement;
   theme?: string;
-
+  value?: {
+    alignment?: string;
+  };
 };
 
 class CustomMenuItemSeparator extends React.PureComponent {
@@ -20,8 +26,8 @@ class CustomMenuItemSeparator extends React.PureComponent {
 }
 
 class CustomMenuItem extends React.PureComponent {
-  static Separator = CustomMenuItemSeparator;
-  static contextType = ThemeContext;
+  static readonly Separator = CustomMenuItemSeparator;
+  static readonly contextType = ThemeContext;
   declare props: CustomButtonProps;
 
   render(): React.ReactElement<CustomButton> {
@@ -33,7 +39,13 @@ class CustomMenuItem extends React.PureComponent {
     if (this.props.value?.alignment) {
       className = 'czi-custom-menu-item-button ' + this.props.theme;
     }
-    return <CustomButton {...this.props} className={className} theme={this.props.theme} />;
+    return (
+      <CustomButton
+        {...this.props}
+        className={className}
+        theme={this.props.theme}
+      />
+    );
   }
 }
 

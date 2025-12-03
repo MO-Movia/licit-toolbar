@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {isOrderedListNode} from './isOrderedListNode';
 import {isListNode} from './isListNode';
 import {Fragment, Node} from 'prosemirror-model';
@@ -90,75 +95,67 @@ export function consolidateListNodes(tr: Transaction): Transform {
 function linkOrderedListCounters(tr: Transform): Transform {
   const from = 1;
   const to = tr.doc.nodeSize - 2;
-  if (from >= to) {
-    return tr;
-  }
+  if (from >= to) return tr;
 
   const namedLists = new Set();
+  let listsBefore: Array<{ node: Node; parentNode: Node; indent: number }> = null;
 
-  let listsBefore = null;
-  tr.doc.nodesBetween(from, to, (node, pos, parentNode) => {
-    let willTraverseNodeChildren = true;
-    if (isListNode(node)) {
-      // List Node can't be nested, no need to traverse its children.
-      willTraverseNodeChildren = false;
-      const indent = node.attrs.indent || 0;
-      const start = node.attrs.start || 1;
-      const {name, following} = node.attrs;
-      if (name) {
-        namedLists.add(name);
+  const processOrderedList = (node: Node, pos: number, indent: number) => {
+    if (!listsBefore) {
+      listsBefore = [];
+      if (isOrderedListNode(node)) {
+        const { following } = node.attrs;
+        const counterIsLinked = namedLists.has(following);
+        tr = setCounterLinked(tr, pos, counterIsLinked);
       }
-
-      if (listsBefore) {
-        if (start === 1 && isOrderedListNode(node)) {
-          // Look backward until we could find another ordered list node to
-          // link with.
-          let counterIsLinked;
-          listsBefore.some(({ node: { type }, indent: listIndent }) => {
-            if (listIndent < indent || (listIndent === indent && type !== node.type)) {
-              // Restart counter if:
-              // 1. We encounter a list with a lesser indent (moving to a higher level).
-              // 2. We encounter a different type of list at the same indent level.
-              counterIsLinked = false;
-              return true;
-            }
-
-            if (listIndent === indent) {
-              // Continue counter if:
-              // We encounter the same type of list at the same indent level.
-              counterIsLinked = true;
-              return true;
-            }
-
-            return false;
-          });
-
-          if (counterIsLinked !== undefined) {
-            tr = setCounterLinked(tr, pos, counterIsLinked);
-          }
-        }
-      } else {
-        // Found the first list among a new Lists Island.
-        // ------
-        // 1. AAA <- Counter restarts here.
-        // 2. BBB
-        listsBefore = [];
-        if (isOrderedListNode(node)) {
-          // The list may follow a previous list that is among another Lists
-          // Island. If so, do not reset the list counter.
-          const counterIsLinked = namedLists.has(following);
-          tr = setCounterLinked(tr, pos, counterIsLinked);
-        }
-      }
-      listsBefore.unshift({parentNode, indent, node});
-    } else {
-      // Not traversing within any list node. No lists need to be updated.
-      listsBefore = null;
+      return;
     }
-    return willTraverseNodeChildren;
+
+    if (node.attrs.start !== 1 || !isOrderedListNode(node)) return;
+
+    const counterIsLinked = determineLinkStatus(node, indent);
+    if (counterIsLinked !== undefined) {
+      tr = setCounterLinked(tr, pos, counterIsLinked);
+    }
+  };
+
+  const determineLinkStatus = (node: Node, indent: number): boolean => {
+    let linked: boolean ;
+
+    listsBefore.some(({ node: prevNode, indent: prevIndent }) => {
+      if (prevIndent < indent || (prevIndent === indent && prevNode.type !== node.type)) {
+        linked = false;
+        return true;
+      }
+      if (prevIndent === indent) {
+        linked = true;
+        return true;
+      }
+      return false;
+    });
+
+    return linked;
+  };
+
+  tr.doc.nodesBetween(from, to, (node, pos, parentNode) => {
+    if (!isListNode(node)) {
+      listsBefore = null;
+      return true;
+    }
+
+    const indent = node.attrs.indent || 0;
+    const { name } = node.attrs;
+    if (name) namedLists.add(name);
+
+    processOrderedList(node, pos, indent);
+    listsBefore.unshift({ parentNode, indent, node });
+
+    return false; // Avoid traversing into list children
   });
+
   return tr;
 }
+
 
 function setCounterLinked(
   tr: Transform,
@@ -220,7 +217,7 @@ function traverseDocAndFindJointInfo(
     jointInfo.firstListNodePos = firstListNodePos;
   }
 
-  return jointInfo;
+  return jointInfo as JointInfo;
 }
 
 // If two siblings nodes that can be joined as single list, returns

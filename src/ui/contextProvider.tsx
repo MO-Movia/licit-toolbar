@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import React, { createContext, Component, ReactNode } from 'react';
 
 // Create a context with a default theme

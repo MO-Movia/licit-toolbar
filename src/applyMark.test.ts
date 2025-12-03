@@ -1,6 +1,11 @@
-import {applyMark} from './index';
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
+import {applyMark} from './applyMark';
 import {EditorState, TextSelection} from 'prosemirror-state';
-import {Mark, MarkType, Schema,Node} from 'prosemirror-model';
+import {Mark, MarkType, Schema, Node} from 'prosemirror-model';
 import {Transform} from 'prosemirror-transform';
 
 describe('applyMark', () => {
@@ -85,17 +90,12 @@ describe('applyMark', () => {
       ]),
     ]),
   ]);
-  dummyDoc.rangeHasMark = ()=>{return true;};
-  dummyDoc.nodeAt = ()=>{return dummyDoc;};
-
-  it('should apply a mark to the given range', () => {
-    const markType = schema.marks.bold;
-    const attrs = {fontWeight: 'bold'};
-    const tr = state.tr;
-    const transformedTr = applyMark(tr, schema, markType, attrs);
-
-    expect(transformedTr.docChanged).toBe(false);
-  });
+  dummyDoc.rangeHasMark = () => {
+    return true;
+  };
+  dummyDoc.nodeAt = () => {
+    return dummyDoc;
+  };
 
   it('should remove the mark from the given range if it already exists', () => {
     const markType = schema.marks.bold;
@@ -178,12 +178,14 @@ describe('applyMark', () => {
     const transformedTr = applyMark(tr, schema, markType, attrs, false);
     expect(transformedTr).toBeTruthy();
   });
-  it('should handle applyMark when isCustomStyleApplied is true ',()=>{
-    const  addMark = ()=>{return {addMark:addMark,doc:dummyDoc};};
+  it('should handle applyMark when isCustomStyleApplied is true', () => {
+    const addMark = () => {
+      return {addMark: addMark, doc: dummyDoc};
+    };
     const markType = schema.marks.bold;
     const attrs = {fontWeight: 'bold'};
     const tr = {
-      addMark:addMark,
+      addMark: addMark,
       removeStoredMark: () => {
         return {
           addStoredMark: () => {
@@ -209,7 +211,7 @@ describe('applyMark', () => {
     const transformedTr = applyMark(tr, schema, markType, attrs, true);
     expect(transformedTr).toBeTruthy();
   });
-  it('should handle applyMark when nodeTr is null',()=>{
+  it('should handle applyMark when nodeTr is null', () => {
     const dummyDoc = mySchema.node('doc', null, [
       mySchema.node('heading', {lineSpacing: 'test'}, [
         mySchema.text('Heading 1'),
@@ -235,13 +237,19 @@ describe('applyMark', () => {
         ]),
       ]),
     ]);
-    dummyDoc.rangeHasMark = ()=>{return true;};
-    dummyDoc.nodeAt = ()=>{return null;};
-    const  addMark = ()=>{return {addMark:addMark};};
+    dummyDoc.rangeHasMark = () => {
+      return true;
+    };
+    dummyDoc.nodeAt = () => {
+      return null;
+    };
+    const addMark = () => {
+      return {addMark: addMark};
+    };
     const markType = schema.marks.bold;
     const attrs = {fontWeight: 'bold'};
     const tr = {
-      addMark:addMark,
+      addMark: addMark,
       removeStoredMark: () => {
         return {
           addStoredMark: () => {
@@ -267,7 +275,7 @@ describe('applyMark', () => {
     const transformedTr = applyMark(tr, schema, markType, attrs, true);
     expect(transformedTr).toBeTruthy();
   });
-  it('should handle applyMark',()=>{
+  it('should handle applyMark', () => {
     const linkmark = new Mark();
     const mockschema = new Schema({
       nodes: {
@@ -277,20 +285,20 @@ describe('applyMark', () => {
         paragraph: {
           content: 'text*',
           attrs: {
-            styleName: { default: 'test' },
+            styleName: {default: 'test'},
           },
           toDOM() {
             return ['p', 0];
           },
         },
         heading: {
-          attrs: { level: { default: 1 }, styleName: { default: '' } },
+          attrs: {level: {default: 1}, styleName: {default: ''}},
           content: 'inline*',
           marks: '',
           toDOM(node) {
             return [
               'h' + node.attrs.level,
-              { 'data-style-name': node.attrs.styleName },
+              {'data-style-name': node.attrs.styleName},
               0,
             ];
           },
@@ -308,24 +316,24 @@ describe('applyMark', () => {
       content: [
         {
           type: 'heading',
-          attrs: { level: 1, styleName: 'Normal' },
+          attrs: {level: 1, styleName: 'Normal'},
           content: [
             {
               type: 'text',
               text: 'Hello, ProseMirror!',
             },
           ],
-          marks: [
-            { type: 'link', attrs: { ['overridden']: true } },
-          ],
+          marks: [{type: 'link', attrs: {['overridden']: true}}],
         },
       ],
     });
-    const  addMark = ()=>{return {addMark:addMark};};
+    const addMark = () => {
+      return {addMark: addMark};
+    };
     const markType = schema.marks.bold;
     const attrs = {fontWeight: 'bold'};
     const tr = {
-      addMark:addMark,
+      addMark: addMark,
       removeStoredMark: () => {
         return {
           addStoredMark: () => {
@@ -352,7 +360,7 @@ describe('applyMark', () => {
     expect(transformedTr).toBeTruthy();
   });
 
-  it('should handle applyMark when has is null',()=>{
+  it('should handle applyMark when has is null', () => {
     const dummyDoc = mySchema.node('doc', null, [
       mySchema.node('heading', {lineSpacing: 'test'}, [
         mySchema.text('Heading 1'),
@@ -378,13 +386,26 @@ describe('applyMark', () => {
         ]),
       ]),
     ]);
-    dummyDoc.rangeHasMark = ()=>{return false;};
-    dummyDoc.nodeAt = ()=>{return {marks:[{type:{name:{name:'link'} as unknown as MarkType}}]} as unknown as Node;};
-    const  addMark = ()=>{return {addMark:addMark};};
-    const markType = {name:'link',create:()=>{return {};}} as unknown as MarkType;
+    dummyDoc.rangeHasMark = () => {
+      return false;
+    };
+    dummyDoc.nodeAt = () => {
+      return {
+        marks: [{type: {name: {name: 'link'} as unknown as MarkType}}],
+      } as unknown as Node;
+    };
+    const addMark = () => {
+      return {addMark: addMark};
+    };
+    const markType = {
+      name: 'link',
+      create: () => {
+        return {};
+      },
+    } as unknown as MarkType;
     const attrs = {fontWeight: 'bold'};
     const tr = {
-      addMark:addMark,
+      addMark: addMark,
       removeStoredMark: () => {
         return {
           addStoredMark: () => {

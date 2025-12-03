@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 export * from './MarkToggleCommand';
 export * from './FontTypeCommand';
 export * from './FontSizeCommand';
@@ -6,7 +11,7 @@ export * from './TextAlignCommand';
 export * from './TextLineSpacingCommand';
 export * from './HeadingCommand';
 export * from './applyMark';
-export * from './ui/uuid';
+export {default as uuid} from './ui/uuid';
 export * from './consolidateListNodes';
 export * from './isListNode';
 export * from './toggleList';
@@ -25,5 +30,5 @@ export * from './isInsideListItem';
 export * from './clearMarks';
 export * from './NodeNames';
 export * from './MarkNames';
-export { ThemeProvider,ThemeContext } from './ui/contextProvider';
-export {EditorToolbar} from './ui/Toolbar'
+export {ThemeProvider, ThemeContext} from './ui/contextProvider';
+export {EditorToolbar} from './ui/Toolbar';

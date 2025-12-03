@@ -1,4 +1,8 @@
-// https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 export const BLOCKQUOTE = 'blockquote';
 export const BOOKMARK = 'bookmark';
 export const BULLET_LIST = 'bullet_list';

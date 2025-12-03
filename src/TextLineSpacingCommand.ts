@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {UICommand} from '@modusoperandi/licit-doc-attrs-step';
 import {Transaction, EditorState} from 'prosemirror-state';
 import {BLOCKQUOTE, HEADING, LIST_ITEM, PARAGRAPH} from './NodeNames';
@@ -173,4 +178,7 @@ export class TextLineSpacingCommand extends UICommand {
   executeCustom = (_state: EditorState, tr: Transform): Transform => {
     return tr;
   };
+  executeCustomStyleForTable(_state: EditorState, tr: Transform): Transform {
+    return tr;
+  }
 }

@@ -1,4 +1,8 @@
-// Line spacing names and their values.
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 export const LINE_SPACING_100 = '125%';
 export const LINE_SPACING_115 = '138%';
 export const LINE_SPACING_150 = '165%';
@@ -18,7 +22,7 @@ export function toCSSLineSpacing(source: string): string {
   let strValue = String(source);
 
   // e.g. line-height: 1.5;
-  const numValue = parseFloat(strValue);
+  const numValue = Number.parseFloat(strValue);
   const lastChar = strValue[strValue.length - 1];
   // can parse number and last char is a number
   if (!Number.isNaN(numValue) && '0' <= lastChar && lastChar <= '9') {

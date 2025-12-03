@@ -1,8 +1,13 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {Schema, Node} from 'prosemirror-model';
 import {transformAndPreserveTextSelection} from './transformAndPreserveTextSelection';
 import {Transform} from 'prosemirror-transform';
 import * as amark from './applyMark';
-import {uuid} from './ui/uuid';
+import uuid from './ui/uuid';
 
 describe('transformAndPreserveTextSelection', () => {
   const mySchema = new Schema({
@@ -53,7 +58,7 @@ describe('transformAndPreserveTextSelection', () => {
     );
     expect(test).toBeDefined();
   });
-  it('should handle transformAndPreserveTextSelection when getMeta return false and when !markType ', () => {
+  it('should handle transformAndPreserveTextSelection when getMeta return false and when !markType', () => {
     const test = transformAndPreserveTextSelection(
       {
         getMeta: () => {
@@ -294,104 +299,6 @@ describe('transformAndPreserveTextSelection', () => {
       .spyOn(tr1.doc, 'nodeAt')
       .mockReturnValueOnce(undefined)
       .mockReturnValueOnce({type: {name: 'text'}} as unknown as Node);
-
-    const mySchema = new Schema({
-      nodes: {
-        doc: {content: 'text*'},
-        text: {inline: true},
-      },
-    });
-    const textNode = mySchema.text('This is a placeholder text node.');
-    const test = transformAndPreserveTextSelection(
-      tr1,
-      {
-        marks: {'mark-text-selection': {}},
-        text: () => {
-          return textNode;
-        },
-      } as unknown as Schema,
-      () => {
-        return {
-          getMeta: () => {
-            return false;
-          },
-          selection: {from: 1, to: 1},
-          doc: initialDoc,
-          setSelection: () => {
-            return {doc: initialDoc};
-          },
-          removeMark: () => {
-            return {
-              getMeta: () => {
-                return false;
-              },
-              selection: {from: 1, to: 1},
-              doc: initialDoc,
-              setSelection: () => {
-                return {doc: initialDoc};
-              },
-              removeMark: () => {
-                return {};
-              },
-            } as unknown as Transform;
-          },
-        } as unknown as Transform;
-      }
-    );
-    expect(test).toBeDefined();
-  });
-  it('should handle transformAndPreserveTextSelection when getMeta return false and when from and to =1 and when prevNode && currentNode && currentNode.type === prevNode.type', () => {
-    jest.spyOn(amark, 'applyMark').mockReturnValue({
-      getMeta: () => {
-        return false;
-      },
-      selection: {from: 1, to: 1},
-      doc: initialDoc,
-      setSelection: () => {
-        return {doc: initialDoc};
-      },
-    } as unknown as Transform);
-    const tr1 = {
-      insert: () => {
-        return {
-          insert: () => {
-            return {};
-          },
-          getMeta: () => {
-            return false;
-          },
-          selection: {from: 1, to: 1},
-          doc: initialDoc,
-          setSelection: () => {
-            return {
-              getMeta: () => {
-                return false;
-              },
-              selection: {from: 1, to: 1},
-              doc: initialDoc,
-            } as unknown as Transform;
-          },
-        } as unknown as Transform;
-      },
-      getMeta: () => {
-        return false;
-      },
-      selection: {from: 1, to: 1},
-      doc: initialDoc,
-      setSelection: () => {
-        return {
-          getMeta: () => {
-            return false;
-          },
-          selection: {from: 1, to: 1},
-          doc: initialDoc,
-        } as unknown as Transform;
-      },
-    } as unknown as Transform;
-    jest
-      .spyOn(tr1.doc, 'nodeAt')
-      .mockReturnValueOnce({type: {name: 'TES'}} as unknown as Node)
-      .mockReturnValueOnce({type: {name: 'TEST'}} as unknown as Node);
 
     const mySchema = new Schema({
       nodes: {

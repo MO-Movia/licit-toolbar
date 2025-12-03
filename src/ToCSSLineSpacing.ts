@@ -1,16 +1,20 @@
 
-// Line spacing names and their values.
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 export const LINE_SPACING_100 = '125%';
 export const LINE_SPACING_115 = '138%';
 export const LINE_SPACING_150 = '165%';
 export const LINE_SPACING_200 = '232%';
 
-const NUMBER_VALUE_PATTERN = /^\d+(.\d+)?$/;
+const NUMBER_VALUE_PATTERN = /^\d+(\.\d+)?$/;
 
 // Normalize the css line-height vlaue to percentage-based value if applicable.
 // Also, it calibrates the incorrect line spacing value exported from Google
 // Doc.
-export default function toCSSLineSpacing(source: any): string {
+export default function toCSSLineSpacing(source: string | number): string {
   if (!source) {
     return '';
   }
@@ -19,7 +23,7 @@ export default function toCSSLineSpacing(source: any): string {
 
   // e.g. line-height: 1.5;
   if (NUMBER_VALUE_PATTERN.test(strValue)) {
-    const numValue = parseFloat(strValue);
+    const numValue = Number.parseFloat(strValue);
     strValue = String(Math.round(numValue * 100)) + '%';
   }
 

@@ -1,8 +1,13 @@
 
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import * as React from 'react';
-import { EditorState } from 'prosemirror-state';
-import { Transform } from 'prosemirror-transform';
-import { UICommand } from '@modusoperandi/licit-doc-attrs-step';
+import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
+import {UICommand} from '@modusoperandi/licit-doc-attrs-step';
 
 export type NodeSpec = {
   attrs?: Record<string, unknown>;
@@ -30,12 +35,7 @@ export type MarkSpec = {
   toDOM: (node) => (string | number | Record<string, unknown>)[];
 };
 
-export type EditorProps = {
-  // TODO: Fill the interface.
-  // https://github.com/ProseMirror/prosemirror-view/blob/master/src/index.js
-};
-
-export type DirectEditorProps = EditorProps & {
+export type DirectEditorProps = {
   clipboardSerializer;
   dispatchTransaction: (tr: Transform) => void;
   editable: () => boolean;
@@ -64,14 +64,13 @@ export type ImageLike = {
 export type ToolbarMenuConfig = {
   menuPosition: number;
   key: string;
-  menuCommand: any;
+  menuCommand: UICommand;
   isPlugin?: boolean;
   group: string;
-
-}
+};
 export type RecentColor = {
-  id: number,
-  color: string
+  id: number;
+  color: string;
 };
 
 export type EditorRuntime = {

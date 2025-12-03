@@ -1,26 +1,38 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import cx from 'classnames';
-import { EditorState } from 'prosemirror-state';
-import { Transform } from 'prosemirror-transform';
-import { EditorView } from 'prosemirror-view';
+import {EditorState} from 'prosemirror-state';
+import {Transform} from 'prosemirror-transform';
+import {EditorView} from 'prosemirror-view';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 import CommandButton from './CommandButton';
-import CommandMenuButton, { Arr } from './CommandMenuButton';
-import { CustomButton, ThemeContext } from '@modusoperandi/licit-ui-commands';
-import { COMMAND_GROUPS, parseLabel } from '../EditorTollbarConfig';
+import CommandMenuButton from './CommandMenuButton';
+import {CustomButton, ThemeContext} from '@modusoperandi/licit-ui-commands';
+import {COMMAND_GROUPS, CommandGroup, parseLabel} from '../EditorTollbarConfig';
 import Icon from './Icon';
 import ResizeObserver from '../ResizeObserver';
-import { UICommand } from '@modusoperandi/licit-doc-attrs-step';
+import {UICommand} from '@modusoperandi/licit-doc-attrs-step';
 import isReactClass from '../IsReactClass';
 
 import '../styles/czi-editor-toolbar.css';
-import { LicitPlugin } from '../ConvertFromJSON';
-import { EditorViewEx } from '../Constants';
-import { ToolbarMenuConfig } from '../Types';
+import {LicitPlugin} from '../ConvertFromJSON';
+import {EditorViewEx} from '../Constants';
+import {ToolbarMenuConfig} from '../Types';
+
+interface LicitPluginWithKey extends LicitPlugin {
+  key: string;
+}
+
+type MenuItem = Record<string, UICommand | React.PureComponent | string>;
 
 export class EditorToolbar extends React.PureComponent {
-  static contextType = ThemeContext;
+  static readonly contextType = ThemeContext;
+  declare context: React.ContextType<typeof ThemeContext>;
   _body = null;
 
   declare props: {
@@ -39,13 +51,13 @@ export class EditorToolbar extends React.PureComponent {
   };
 
   render(): React.ReactElement<CustomButton> {
-    const { wrapped, expanded } = this.state;
-    const { toolbarConfig } = this.props;
+    const {wrapped, expanded} = this.state;
+    const {toolbarConfig} = this.props;
     const theme = this.context;
-    console.log(theme);
-    let commandGroups: any;
-    let className = cx('czi-editor-toolbar', { expanded, wrapped });
-    let toolbarBodyClass = cx('czi-editor-toolbar-body-content', theme);
+    console.warn(theme);
+    let commandGroups: React.ReactElement[];
+    let className = cx('czi-editor-toolbar', {expanded, wrapped});
+    const toolbarBodyClass = cx('czi-editor-toolbar-body-content', theme);
 
     if (expanded && !wrapped) {
       className = 'czi-editor-toolbar';
@@ -58,73 +70,73 @@ export class EditorToolbar extends React.PureComponent {
         icon={Icon.get('more_horiz')}
         key="expand"
         onClick={this._toggleExpansion}
+        theme={theme.toString()}
         title="More"
         value={expVal}
-        theme={theme.toString()}
       />
     ) : null;
 
-    if (toolbarConfig && toolbarConfig.length > 0) {
+    if (toolbarConfig?.length > 0) {
       toolbarConfig.sort((a, b) => a.menuPosition - b.menuPosition);
       const pluginObjects = toolbarConfig
         .filter((item) => item.isPlugin === true)
         .map((toolbarObj) => {
           const matchingPlugin = this.props.editorState.plugins.find(
-            (plugin) => (plugin as any).key === toolbarObj.key
+            (plugin) => (plugin as LicitPluginWithKey).key === toolbarObj.key
           );
 
           if (matchingPlugin) {
             // Return a new object with properties from both toolbar and plugin
             return {
               ...toolbarObj,
-              menuCommand: (matchingPlugin as LicitPlugin).initButtonCommands(theme)
-
+              menuCommand: (matchingPlugin as LicitPlugin).initButtonCommands(
+                theme
+              ),
             };
           }
 
           return null; // If no matching plugin is found
         })
         .filter(Boolean); // Remove null entries
-      console.log(pluginObjects);
+      console.warn(pluginObjects);
 
-
-      if (pluginObjects && pluginObjects.length > 0) {
-
-        toolbarConfig.map(obj2 => {
-          const correspondingObj = pluginObjects.find(obj1 => obj1.key === obj2.key);
+      if (pluginObjects?.length > 0) {
+        for (const obj2 of toolbarConfig) {
+          const correspondingObj = pluginObjects.find(
+            (obj1) => obj1.key === obj2.key
+          );
           if (correspondingObj) {
             obj2.menuCommand = correspondingObj.menuCommand;
             obj2.key = correspondingObj.key;
           }
-          return obj2;
-        });
+        };
 
-        console.log(toolbarConfig);
-
+        console.warn(toolbarConfig);
       }
       const m = this.processMenuItems(toolbarConfig);
-      let k = this.groupMenuItems(m);
-      // let d = [this.orderedMenuData(k)];
+      const k = this.groupMenuItems(m);
       commandGroups = k.map(this._renderButtonsGroup_1).filter(Boolean);
-
     } else {
       // const theme = theme;
       // Start with static button controls and append any button groups
       // supplied by plugins
       commandGroups = COMMAND_GROUPS.concat(
-        ((this.props.editorState && this.props.editorState.plugins) || [])
-          .map((p) => 'initButtonCommands' in p && (p as LicitPlugin).initButtonCommands(theme))
+        ((this.props.editorState?.plugins) || [])
+          .map(
+            (p) =>
+              'initButtonCommands' in p &&
+              (p as LicitPlugin).initButtonCommands(theme)
+          )
           .filter(Boolean)
-      ).map(this._renderButtonsGroup).filter(Boolean);
+      )
+        .map(this._renderButtonsGroup)
+        .filter(Boolean);
     }
     return (
       <div className={className}>
         <div className="czi-editor-toolbar-flex">
           <div className="czi-editor-toolbar-body">
-            <div
-              className={toolbarBodyClass}
-              ref={this._onBodyRef}
-            >
+            <div className={toolbarBodyClass} ref={this._onBodyRef}>
               <i className="czi-editor-toolbar-wrapped-anchor" />
               {commandGroups}
               <div className="czi-editor-toolbar-background">
@@ -149,7 +161,6 @@ export class EditorToolbar extends React.PureComponent {
   //   return menuItems.reduce((acc, item) => {
 
   //     if (item.isPlugin) {
-
   //       const keysArray = Object.keys(item.menuCommand);
   //       // Access the first key
   //       const firstKey = keysArray && keysArray.length > 0 ? keysArray[0] : undefined;
@@ -166,9 +177,7 @@ export class EditorToolbar extends React.PureComponent {
 
   // processMenuItems(menuItems) {
 
-  //   return menuItems.reduce((acc, item) => {
   //     if (item.isPlugin) {
-  //       const keysArray = Object.keys(item.menuCommand);
   //       const firstKey = keysArray && keysArray.length > 0 ? keysArray[0] : undefined;
   //       if (firstKey) {
   //         acc[firstKey] = item.menuCommand[firstKey];
@@ -202,66 +211,63 @@ export class EditorToolbar extends React.PureComponent {
     return menuItems.reduce((acc, item) => {
       if (item.isPlugin) {
         const keysArray = Object.keys(item.menuCommand);
-        const firstKey = keysArray && keysArray.length > 0 ? keysArray[0] : undefined;
+        const firstKey =
+          keysArray && keysArray.length > 0 ? keysArray[0] : undefined;
         if (firstKey) {
           const newItem = {
-            [firstKey]: item.menuCommand[firstKey], group: item.group // Use key as property name
+            [firstKey]: item.menuCommand[firstKey],
+            group: item.group, // Use key as property name
           };
           acc.push(newItem);
         }
-      }
-      else {
+      } else {
         const newItem = {
-          [item.key]: item.menuCommand, group: item.group // Use key as property name
+          [item.key]: item.menuCommand,
+          group: item.group, // Use key as property name
         };
         acc.push(newItem);
       }
 
-      return acc;
-    }, []);
+      return acc as Array<MenuItem>;
+    }, []) as Array<MenuItem>;
   }
 
-  groupMenuItems = (items) => {
-    const groups = [];
+  groupMenuItems = (items: Array<MenuItem>): Array<Record<string, unknown>> => {
+    const groups: Array<Record<string, unknown>> = [];
     let prefix = 1;
 
     items.forEach((item) => {
       const groupName = item.group || 'Ungrouped'; // Use 'Ungrouped' for missing groups
-      // if (!groups[prefix]) {
-      //   groups[prefix] = [];
-      // }
-      if (groups.findIndex((item) => item.group === groupName) < 0) {
-        let x = items.filter((a) => { return a.group === groupName })
-        groups.push({ [prefix]: { ...x }, group: groupName });
-
+      if (!groups.some((g) => g.group === groupName)) {
+        const itemsInGroup = items.filter((i) => i.group === groupName);
+        groups.push({
+          [prefix]: {...itemsInGroup},
+          group: groupName,
+        });
       }
-      prefix++
+      prefix++;
     });
 
     return groups;
   };
-
-  sortGroupItems = (items) => items.sort((a, b) => a.order - b.order);
-  orderedMenuData = (menuData) => Object.entries(menuData).reduce((acc, [groupName, items]) => {
-    acc[groupName] = this.sortGroupItems(items);
-    return acc;
-  }, {});
-
+ 
   _renderButtonsGroup = (
-    group: Record<string, UICommand | React.PureComponent>,
-    index: number
+    group: CommandGroup,
+    _index: number
   ): React.ReactElement => {
-
     const theme = this.context;
-    console.log('se ' + theme);
+    console.warn('se ' + theme);
     const buttons = Object.keys(group)
       .map((label) => {
         const obj = group[label];
 
         if (isReactClass(obj)) {
-          // JSX requies the component to be named with upper camel case.
-          const ThatComponent = obj as any;
-          const { editorState, editorView, dispatchTransaction } = this.props;
+          const ThatComponent = obj as React.ComponentType<{
+            dispatch: (tr: Transform) => void;
+            editorState: EditorState;
+            editorView: EditorViewEx;
+          }>;
+          const {editorState, editorView, dispatchTransaction} = this.props;
           return (
             <ThatComponent
               dispatch={dispatchTransaction}
@@ -279,127 +285,67 @@ export class EditorToolbar extends React.PureComponent {
         }
       })
       .filter(Boolean);
-    return (
-      <div className={`czi-custom-buttons ${theme}`}>
-        {buttons}
-      </div>
-    );
+    return <div className={`czi-custom-buttons ${theme}`}>{buttons}</div>;
   };
-
 
   _renderButtonsGroup_1 = (
-    group: any,
-    index: number
+    group: Record<string, UICommand | React.PureComponent>,
+    _index: number
   ): React.ReactElement => {
-
-    const keys = Object.keys(group)
+    const keys = Object.keys(group);
     const theme = this.context;
-    console.log('se ' + theme);
+    console.warn('se ' + theme);
     const newgroup = group[keys[0]];
-    let buttons = [];
-    index = 0;
-    Object.entries(newgroup).forEach(([key, value]) => {
-      buttons.push(Object.keys(value)
-        .map((label) => {
-          if (label !== 'group') {
-            const obj = newgroup[index][label];
-            index++;
-            if (isReactClass(obj)) {
-              // JSX requies the component to be named with upper camel case.
-              const ThatComponent = obj as any;
-              const { editorState, editorView, dispatchTransaction } = this.props;
-              return (
-                <ThatComponent
-                  dispatch={dispatchTransaction}
-                  editorState={editorState}
-                  editorView={editorView}
-                  key={label}
-                />
-              );
-            } else if (obj instanceof UICommand) {
-              return this._renderButton(label, obj, theme.toString());
-            } else if (Array.isArray(obj)) {
-              return this._renderMenuButton(label, obj);
-            } else {
-              return null;
+    const buttons = [];
+    let index = 0;
+    for (const [, value] of Object.entries(newgroup)) {
+      buttons.push(
+        Object.keys(value)
+          .map((label) => {
+            if (label !== 'group') {
+              const obj = newgroup[index][label];
+              index++;
+              if (isReactClass(obj)) {
+                // JSX requies the component to be named with upper camel case.
+                const ThatComponent = obj as React.ComponentType<{
+                  dispatch: (tr: Transform) => void;
+                  editorState: EditorState;
+                  editorView: EditorViewEx;
+                }>;
+                const {editorState, editorView, dispatchTransaction} =
+                  this.props;
+                return (
+                  <ThatComponent
+                    dispatch={dispatchTransaction}
+                    editorState={editorState}
+                    editorView={editorView}
+                    key={label}
+                  />
+                );
+              } else if (obj instanceof UICommand) {
+                return this._renderButton(label, obj, theme.toString());
+              } else if (Array.isArray(obj)) {
+                return this._renderMenuButton(label, obj);
+              } else {
+                return null;
+              }
             }
-          }
-        })
-        .filter(Boolean));
+          })
+          .filter(Boolean)
+      );
+    };
 
-
-    });
-
-    return (
-      <div className={`czi-custom-buttons ${theme}`}>
-        {buttons}
-      </div>
-    );
-
+    return <div className={`czi-custom-buttons ${theme}`}>{buttons}</div>;
   };
 
-
-  // _renderButtonsGroup_Order = (
-  //   group: ToolbarMenuConfig,
-  //   index: number
-  // ): React.ReactElement => {
-
-  //   const theme = this.context;
-  //   console.log('se ' + theme);
-
-  //   const obj = group.menuCommand;
-  //   const buttons = this.createmenuButtons(group, theme.toString());
-
-  //   return (
-  //     <div className="czi-custom-buttons" key={'g' + String(index)}>
-  //       {buttons}
-  //     </div>
-  //   );
-  // };
-
-  // createmenuButtons = (
-  //   group: ToolbarMenuConfig,
-  //   theme: string
-  // ): React.ReactElement => {
-
-
-  //   if (isReactClass(group.menuCommand)) {
-  //     // JSX requies the component to be named with upper camel case.
-  //     const ThatComponent = group.menuCommand;
-  //     const { editorState, editorView, dispatchTransaction } = this.props;
-  //     return (
-  //       <ThatComponent
-  //         dispatch={dispatchTransaction}
-  //         editorState={editorState}
-  //         editorView={editorView}
-  //         key={group.key}
-  //       />
-  //     );
-  //   } else if (group.menuCommand instanceof UICommand) {
-  //     return this._renderButton(group.key, group.menuCommand, theme.toString());
-  //   } else if (Array.isArray(group.menuCommand)) {
-  //     return this._renderMenuButton(group.key, group.menuCommand);
-  //   } else {
-
-  //     const keysArray = Object.keys(group.menuCommand);
-
-  //     // Access the first key
-  //     const firstKey = keysArray && keysArray.length > 0 ? keysArray[0] : undefined;
-  //     if (firstKey && Array.isArray(group.menuCommand[firstKey])) {
-  //       return this._renderMenuButton(group.key, group.menuCommand[firstKey]);
-  //     }
-  //     return null;
-  //   }
-  // }
   _renderMenuButton = (
     label: string,
-    commandGroups: Array<Arr>
+    commandGroups: CommandGroup[]
   ): React.ReactElement<CommandMenuButton> => {
-    const { editorState, editorView, disabled, dispatchTransaction } =
-      this.props;
+    const {editorState, editorView, disabled, dispatchTransaction} = this.props;
     const theme = this.context;
-    console.log('separseLabel ' + theme);
-    const { icon, title } = parseLabel(label, theme ? theme.toString() : 'dark');
+    console.warn('separseLabel ' + theme);
+    const {icon, title} = parseLabel(label, theme ? theme.toString() : 'dark');
     return (
       <CommandMenuButton
         commandGroups={commandGroups}
@@ -420,9 +366,8 @@ export class EditorToolbar extends React.PureComponent {
     command: UICommand,
     theme: string
   ): React.ReactElement<CommandButton> => {
-    const { disabled, editorState, editorView, dispatchTransaction } =
-      this.props;
-    const { icon, title } = parseLabel(label, theme);
+    const {disabled, editorState, editorView, dispatchTransaction} = this.props;
+    const {icon, title} = parseLabel(label, theme);
 
     return (
       <CommandButton
@@ -466,12 +411,11 @@ export class EditorToolbar extends React.PureComponent {
       const wrapped =
         (startAnchor as HTMLElement).offsetTop <
         (endAnchor as HTMLElement).offsetTop;
-      this.setState({ wrapped });
+      this.setState({wrapped});
     }
   };
 
   _toggleExpansion = (expanded: boolean): void => {
-    this.setState({ expanded: !expanded });
+    this.setState({expanded: !expanded});
   };
 }
-

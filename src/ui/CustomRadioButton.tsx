@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import '../styles/czi-custom-radio-button.css';
 import {
   PointerSurface,
@@ -6,13 +11,13 @@ import {
 } from '@modusoperandi/licit-ui-commands';
 import * as React from 'react';
 import cx from 'classnames';
-import {uuid} from './uuid';
+import uuid from './uuid';
 
 class CustomRadioButton extends React.PureComponent {
   declare props: PointerSurfaceProps & {
     checked?: boolean;
     inline?: boolean;
-    label?: string | React.ReactElement | null;
+    label?: string | React.ReactElement;
     name?: string;
     onSelect?: (val, e: React.SyntheticEvent) => void;
   };

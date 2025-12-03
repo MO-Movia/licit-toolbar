@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 const cached = {};
 
 export default function canUseCSSFont(fontName: string): Promise<boolean> {
@@ -10,14 +15,14 @@ export default function canUseCSSFont(fontName: string): Promise<boolean> {
   if (
     !doc.fonts ||
     !doc.fonts.check ||
-    !doc.fonts.ready ||
+     doc.fonts.ready === undefined ||
     !doc.fonts.status ||
     !doc.fonts.values
   ) {
     // Feature is not supported, install the CSS anyway
     // https://developer.mozilla.org/en-US/docs/Web/API/FontFaceSet/check#Browser_compatibility
     // TODO: Polyfill this.
-    console.log('FontFaceSet is not supported');
+    console.warn('FontFaceSet is not supported');
     return Promise.resolve(false);
   }
 
@@ -31,11 +36,14 @@ export default function canUseCSSFont(fontName: string): Promise<boolean> {
       }
       // Do not use `doc.fonts.check()` because it may return falsey result.
       const fontFaces = Array.from(doc.fonts.values());
-      const matched = fontFaces.find((ff) => ff['family'] === fontName);
+      const matched = fontFaces.find((ff) => ff.family === fontName);
       const result = !!matched;
       cached[fontName] = result;
       resolve(result);
     };
-    doc.fonts.ready.then(check);
+      doc.fonts.ready.then(check).catch((error) => {
+    console.error('Font loading error:', error);
+    resolve(false);
+  });
   });
 }

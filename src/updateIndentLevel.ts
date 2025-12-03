@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {clamp} from './ui/clamp';
 import {compareNumber} from './compareNumber';
 import {consolidateListNodes} from './consolidateListNodes';

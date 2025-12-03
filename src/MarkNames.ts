@@ -1,4 +1,8 @@
-// https://github.com/ProseMirror/prosemirror-schema-basic/blob/master/src/schema-basic.js
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 export const MARK_CODE = 'code';
 export const MARK_EM = 'em';
 export const MARK_FONT_SIZE = 'mark-font-size';

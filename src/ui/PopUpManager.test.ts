@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import instance from './PopUpManager';
 
 describe('PopUpManager', () => {
@@ -64,7 +69,7 @@ describe('PopUpManager', () => {
     popUpManager._onClick(mockEvent);
     expect(mockCloseFn).not.toHaveBeenCalled();
   });
-  it('should consider the autodismissal and modal ', () => {
+  it('should consider the autodismissal and modal', () => {
     const mockBody = document.createElement('div');
     const mockCloseFn = jest.fn();
 
@@ -123,7 +128,7 @@ describe('PopUpManager', () => {
     window.requestAnimationFrame = originalRequestAnimationFrame;
   });
 
-  it('should set IsCustom value to true ', () => {
+  it('should set IsCustom value to true', () => {
     const mockCloseFn = jest.fn();
 
     const targetClassName = 'not-a-vaild-class';
@@ -159,17 +164,17 @@ describe('PopUpManager', () => {
     window.cancelAnimationFrame = originalCancelAnimationFrame;
     window.requestAnimationFrame = originalRequestAnimationFrame;
   });
-  it('should handle _onResize ', () => {
+  it('should handle _onResize', () => {
     instance._rafID = 1;
     expect(instance._onResize({} as unknown as Event)).toBeUndefined();
   });
-  it('should handle _onMouseChange  ', () => {
+  it('should handle _onMouseChange', () => {
     instance._rafID = 1;
     expect(
       instance._onMouseChange({} as unknown as MouseEvent)
     ).toBeUndefined();
   });
-  it('should handle _syncPosition   ', () => {
+  it('should handle _syncPosition', () => {
     const mockBody = document.createElement('div');
     const mockCloseFn = jest.fn();
     const mockDetails = {

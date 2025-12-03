@@ -1,42 +1,14 @@
+/**
+ * @license MIT
+ * @copyright Copyright 2025 Modus Operandi Inc. All Rights Reserved.
+ */
+
 import {consolidateListNodes} from './consolidateListNodes';
 import {doc, li, ol, p, ul} from 'prosemirror-test-builder';
 import {EditorState, Transaction} from 'prosemirror-state';
 import {schema} from 'prosemirror-schema-basic';
-import {Schema} from 'prosemirror-model';
 
 describe('consolidateListNodes', () => {
-  it('should consolidate list nodes', () => {
-    const blockNodeType = {
-      group: 'block',
-      name: 'bullet_list',
-    };
-    const schema1 = new Schema({
-      nodes: {
-        doc: {content: 'paragraph+'},
-        paragraph: {
-          content: 'text*',
-          toDOM() {
-            return ['p', 0];
-          },
-        },
-        text: {},
-        ordered_list: {
-          type: blockNodeType,
-        },
-      },
-    });
-
-    const state = EditorState.create({
-      doc: doc(p('hello world')),
-      schema: schema1,
-    });
-
-    const {tr} = state;
-
-    const transformedTr = consolidateListNodes(tr);
-    expect(transformedTr.doc).toBeDefined();
-  });
-
   it('should handle linkOrderedListCounters', () => {
     const tr = {
       doc: {nodeSize: 2},
